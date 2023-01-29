@@ -1,3 +1,16 @@
 .describe{
     padding: 15px;
 }
+
+.photo{
+    width: 200px;
+    height: 200px;
+    align-items: center;
+    border-radius: 20px;
+}
+
+.content {
+    width: 1150px;
+    height: 200px;
+    border-radius: 20px;
+  }

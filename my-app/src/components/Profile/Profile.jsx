@@ -3,11 +3,11 @@ import ProfileInfo from './ProfileInfo/ProfileInfo';
 import MyPostContainer from './Posts/MyPostContainer';
 
 const Profile = (props) => {
-    return (
-        <div className={s.content}>
-            <ProfileInfo />
-            <MyPostContainer />
-        </div>
-    )
+        return (
+            <div className={s.content}>
+                <ProfileInfo profile = {props.profile} />
+                <MyPostContainer />
+            </div>
+        )
 }
-export default Profile; 
+export default Profile;     
