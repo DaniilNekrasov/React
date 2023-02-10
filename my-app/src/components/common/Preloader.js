@@ -1,7 +1,7 @@
 import preloader from "../../assets/images/ZZ5H.gif"
 
 let Preloader = (props) => {
-    return <div style = {{backgroundColor: "white"}}>
+    return <div>
         <img src = {preloader}/>
         </div>
 }

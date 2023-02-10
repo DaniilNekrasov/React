@@ -4,6 +4,8 @@ import { toggleFollowing, follow, unfollow,
      setCurrentPage, getUsers } from "../../Redux/usersReducer";
 import Users from "./Users";
 import Preloader from "../common/Preloader";
+import { withAuthRedirect } from "../HOC/WithAuthRedirect";
+import { compose } from "redux";
 
 
 class UsersAPIComponent extends React.Component {
@@ -13,6 +15,7 @@ class UsersAPIComponent extends React.Component {
 
     onPageChanged = (p) => {
         this.props.getUsers(p, this.props.pageSize);
+        this.props.setCurrentPage(p);
     }
     render() {
         return <>
@@ -64,12 +67,13 @@ let mapStateToProps = (state) => {
 //     }
 // }
 
-
-export default connect(mapStateToProps, {
-    follow,
-    unfollow,
-    setCurrentPage,
-    toggleFollowing,
-    getUsers,
-})
-    (UsersAPIComponent);
+    export default compose(
+        withAuthRedirect,
+        connect(mapStateToProps, {
+            follow,
+            unfollow,
+            setCurrentPage,
+            toggleFollowing,
+            getUsers,
+        })
+    )(UsersAPIComponent)
