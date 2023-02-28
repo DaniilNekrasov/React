@@ -21,7 +21,7 @@ const ProfileInfo = (props) => {
                 {props.profile.aboutMe}
                 <br></br>
                 {props.profile.contacts.vk}
-                <ProfileStatus status = "hello world"/>
+                <ProfileStatus status = {props.status} updateStatus = {props.updateStatus}/>
             </div>
         </div>
     )
