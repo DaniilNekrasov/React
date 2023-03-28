@@ -1,7 +1,7 @@
 import Preloader from '../../common/Preloader';
 import s from './ProfileInfo.module.css'
 import userPhoto from '../../../assets/images/user.jpg';
-import ProfileStatus from './ProfileStatus';
+import ProfileStatusHook from './ProfileStatusHook';
 
 
 const ProfileInfo = (props) => {
@@ -21,7 +21,7 @@ const ProfileInfo = (props) => {
                 {props.profile.aboutMe}
                 <br></br>
                 {props.profile.contacts.vk}
-                <ProfileStatus status = {props.status} updateStatus = {props.updateStatus}/>
+                <ProfileStatusHook status = {props.status} updateStatus = {props.updateStatus}/>
             </div>
         </div>
     )
