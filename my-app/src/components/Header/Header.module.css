@@ -11,7 +11,8 @@
 }
 
 .loginBlock {
-  float: right;
+  float:right;
+  font-size: large;
 }
 
 .loginBlock a {

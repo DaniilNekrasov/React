@@ -5,6 +5,7 @@ import ProfileStatusHook from './ProfileStatusHook';
 
 
 const ProfileInfo = (props) => {
+    debugger
     if (!props.profile) {
         return <Preloader />
     }
@@ -14,7 +15,7 @@ const ProfileInfo = (props) => {
                 <img className={s.content} src='https://us-wd.gr-cdn.com/blog/sites/5/2021/07/0917/pixabayj-scaled.jpg'></img>
             </div>
             <div className={s.describe}>
-                <img className={s.photo} src={props.profile.photos.large ? props.profile.photos.large : userPhoto} />
+                <img className={s.photo} src={props.profile.photos.large ? props.profile.photos.large : "https://smotrim.net/uploads/posts/2019-05/1557473641_obeziany-1.jpg"} />
                 <br></br>
                 {props.profile.fullName}
                 <br></br>

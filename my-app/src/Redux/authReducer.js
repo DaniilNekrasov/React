@@ -1,5 +1,5 @@
 import { stopSubmit } from "redux-form";
-import { authAPI } from "../API/API";
+import { authAPI, regAPI } from "../API/API";
 
 const SET_USER_DATA = "SET_USER_DATA";
 
@@ -30,18 +30,28 @@ export const getAuthUserData = () => async (dispatch) => {
     let response = await authAPI.me()
     if (response.data.resultCode === 0) {
         let { id, email, login } = response.data.data;
-        dispatch(setAuthUserData(id, email, login, true))
     }
 }
 
-export const login = (email, password, rememberMe) => async (dispatch) => {
-    let response = await authAPI.login(email, password, rememberMe)
-    if (response.data.resultCode === 0) {
-        dispatch(getAuthUserData())
+export const login = (username, password, rememberMe) => async (dispatch) => {
+    let response = await regAPI.login(username, password, rememberMe)
+    if (!response.data.message) {
+        dispatch(setAuthUserData(response.data.user.id,null, response.data.user.login, true))
     }
     else {
-        let message = response.data.messages.length > 0 ? response.data.messages[0] : "Some error";
+        let message = response.data.message.length > 0 ? response.data.message : "Some error";
         dispatch(stopSubmit('login', { _error: message }));
+    }
+}
+
+export const register = (login, password, rememberMe) => async (dispatch) => {
+    let response = await regAPI.registration(login, password, rememberMe)
+    if (!response.data.message) {
+        dispatch(setAuthUserData(response.data.user.id, null, response.data.user.login, true))
+    }
+    else {
+        let message = response.data.message.length > 0 ? response.data.message : "Some error";
+        dispatch(stopSubmit('register', { _error: message }));
     }
 }
 

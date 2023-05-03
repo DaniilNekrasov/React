@@ -4,20 +4,20 @@ import Post from './Post';
 import { reduxForm, Field } from "redux-form";
 import { maxLengthCreator, required } from '../../Login/Validators';
 import { Textarea } from '../../common/FormsControls';
+import { useEffect } from 'react';
 
-class MyPosts extends PureComponent {
-    // shouldComponentUpdate(nextProps, nextState){
-    //     return nextProps != this.props || nextState != this.state
-    // }
-    
-    render() {
-        console.log("qweqweqwe")
+const MyPosts = (props) => {
         let postElements =
-            this.props.posts.map((info) => <Post message={info.message} key={info.id} likesCount={info.likesCount} />);
+            props.posts.map((info) => <Post getPosts = {props.getPosts}
+            message={info.message} deletePost={props.deletePost}
+            key={info.id} likesCount={info.likesCount} id={info.id} photo = {props.photo}/>);
 
         let onAddPost = (values) => {
-            this.props.addPost(values.newPostText)
+            props.addPost(values.newPostText)
         }
+        useEffect(() => {
+            props.getPosts()
+        }, [props.posts])
 
         return (
             <div className={s.MyPosts}>
@@ -29,9 +29,8 @@ class MyPosts extends PureComponent {
             </div>
         )
     }
-}
 
-const maxLength10 = maxLengthCreator(10);
+const maxLength10 = maxLengthCreator(100);
 
 const addPostForm = (props) => {
     return (
@@ -48,6 +47,5 @@ const addPostForm = (props) => {
 }
 
 const AddPostFormRedux = reduxForm({ form: "addPostForm" })(addPostForm)
-
 
 export default MyPosts; 

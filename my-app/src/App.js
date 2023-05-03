@@ -12,26 +12,50 @@ import Login from './components/Login/login';
 import React, { Component } from 'react';
 import { initializeApp } from './Redux/appReducer';
 import { connect } from 'react-redux';
-import {useLocation,useNavigate, useParams} from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { compose } from 'redux';
 import Preloader from './components/common/Preloader';
+import { Provider } from 'react-redux';
+import store from './Redux/reduxStore';
+import { BrowserRouter } from 'react-router-dom';
 
+const status = document.getElementById("status")
+const messages = document.getElementById("messages")
+
+const ws = new WebSocket("ws://localhost:3002")
 
 function WithRouter(Component) {
   function ComponentWithRouterProp(props) {
-      let location = useLocation();
-      let navigate = useNavigate();
-      let params = useParams();
-      return (
-          <Component
-              {...props}
-              router={{ location, navigate, params }}
-          />
-      );
+    let location = useLocation();
+    let navigate = useNavigate();
+    let params = useParams();
+    return (
+      <Component
+        {...props}
+        router={{ location, navigate, params }}
+      />
+    );
   }
 
   return ComponentWithRouterProp;
 }
+
+function setStatus(value) {
+  status.innerHTML = value
+}
+
+function printMessage(value) {
+  const li = document.createElement("li")
+
+  li.innerHTML = value
+  messages.appendChild(li)
+}
+
+ws.onopen = () => setStatus("ONLINE")
+
+ws.onclose = () => setStatus("DISCONNECTED")
+
+ws.onmessage = response => printMessage(response.data)
 
 class App extends Component {
   componentDidMount() {
@@ -39,11 +63,11 @@ class App extends Component {
   }
 
   render() {
-    if (!this.props.initialized){
-    return <Preloader/>
+    if (!this.props.initialized) {
+      return <Preloader />
     }
     else
-    return (
+      return (
         <div className='app-wrapper'>
           <HeaderContainer />
           <Navigation />
@@ -60,7 +84,7 @@ class App extends Component {
             </Routes>
           </div>
         </div>
-    );
+      );
   }
 }
 
@@ -68,6 +92,18 @@ const mapStateToProps = (state) => ({
   initialized: state.app.initialized
 })
 
-export default compose(
+let AppContainer = compose(
   WithRouter,
-  connect(mapStateToProps, {initializeApp}))(App);
+  connect(mapStateToProps, { initializeApp }))(App);
+
+let MainApp = (props) => {
+  return <React.StrictMode>
+    <Provider store={store}>
+      <BrowserRouter> 
+        <AppContainer />
+      </BrowserRouter>
+    </Provider>
+  </React.StrictMode>
+}
+
+export default MainApp

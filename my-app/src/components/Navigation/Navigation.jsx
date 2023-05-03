@@ -4,8 +4,6 @@ import dialogsPic from '../../assets/images/dialogs.png'
 import profilePic from '../../assets/images/profile.png'
 import usersPic from '../../assets/images/users.png'
 
-
-
 const Navigation = () => {
     return (
         <nav className={s.nav}>
@@ -27,7 +25,7 @@ const Navigation = () => {
             </div>
             <div className={s.page}>
                 <img className={s.pic} src={dialogsPic} />
-                <NavLink to='settings' className={navData => navData.isActive ? s.active : s.item}>Settings</NavLink>
+                <NavLink to='settings' className={navData => navData.isActive ? s.active : s.item}>Global chat</NavLink>
             </div>
             <div className={s.page}>
                 <img className={s.pic} src={usersPic} />

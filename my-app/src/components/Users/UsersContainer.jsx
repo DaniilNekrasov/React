@@ -8,7 +8,6 @@ import { withAuthRedirect } from "../HOC/WithAuthRedirect";
 import { compose } from "redux";
 import { getCurrentPage, getFollowing, getIsFetchint, getPageSize, getTotalUsersCount, getAllUsers } from "../../Redux/usersSelectors";
 
-
 class UsersAPIComponent extends React.Component {
     componentDidMount() {
         this.props.getUsers(this.props.currentPage, this.props.pageSize);

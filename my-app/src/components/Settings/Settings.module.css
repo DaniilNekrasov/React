@@ -1,5 +1,21 @@
-.wrapper{
-    font-size: x-large;
-    background-color:chocolate ;
-    color: cyan;
+.messages {
+    background-color:rgb(89, 172, 144);
+    border-radius: 20px;
+    padding: 20px;
+}
+.message {
+    margin-top: 5px;
+    line-height:50px;
+    padding: 10px;
+    border-radius: 20%;
+    background-color:rgb(68, 228, 220);
+
+}
+
+.input {
+    background-color:rgb(113, 89, 201);
+    border-radius: 10px;
+    line-height:40px;
+    padding: 5px;
+    margin: 5px;
 }

@@ -26,3 +26,22 @@
     border-radius: 20px;
     padding: 20px;
 }
+.lMessage {
+    margin: 5px;
+    line-height:40px;
+    padding: 5px;
+    border-radius: 20%;
+    background-color:rgb(37, 228, 125);
+}
+
+.rMessage {
+    margin: 5px;
+    line-height:40px;
+    padding: 5px;
+    border-radius: 20%;
+    background-color:rgb(137, 228, 125);
+}
+
+.right {
+    text-align: end;
+}
