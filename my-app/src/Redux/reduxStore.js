@@ -2,6 +2,7 @@ import {applyMiddleware, combineReducers, legacy_createStore as createStore} fro
 import authReducer from "./authReducer";
 import messagesReducer from "./messagesReducer";
 import profileReducer from "./profileReducer";
+import newsReducer from "./newsReducer";
 import usersReducer from "./usersReducer";
 import thunkMiddleware from "redux-thunk";
 import {reducer as formReducer} from "redux-form"
@@ -14,6 +15,7 @@ let reducers = combineReducers({
     usersPage: usersReducer,
     form: formReducer,
     app: appReducer,
+    news: newsReducer,
 });
 
 let store = createStore(reducers, applyMiddleware(thunkMiddleware));

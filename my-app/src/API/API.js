@@ -1,5 +1,4 @@
 import axios from "axios"
-import { Navigate } from "react-router-dom";
 
 const instance2 = axios.create({
     baseURL: "http://localhost:3001/",
@@ -23,15 +22,22 @@ export const messagesAPI = {
 }
 
 export const postsAPI = {
-    getPosts() {
-        return instance2.get("posts")
+    getPosts(id) {
+        return instance2.get(`profile/posts/?userId=${id}`)
     },
-    addPost(text) {
-        return instance2.post("posts", { text })
+    addPost(id, text) {
+        var date = new Date(Date.now())
+        return instance2.post(`profile/posts/?userId=${id}`, {content: text, date: date.toLocaleString()})
     },
     deletePost(id) {
-        return instance2.delete(`posts/${id}`)
-    }
+        return instance2.delete(`profile/posts/?postId=${id}`)
+    },
+    getSubscribes(id) {
+        return instance2.get(`profile/subscribes/?userId=${id}`)
+    },
+    getSubscribers(id) {
+        return instance2.get(`profile/subscribers/?userId=${id}`)
+    },
 }
 
 export const regAPI = {
@@ -45,17 +51,29 @@ export const regAPI = {
 
 export const usersAPI = {
     getUsers(currentPage = 1, pageSize = 10) {
-        return instance.get(`users?page=${currentPage}&count=${pageSize}`)
+        return instance2.get(`auth/users?page=${currentPage}&count=${pageSize}`)
             .then(response => response.data);
     },
-    getProfile(userId) {
-        return instance2.get(`profile/user`, { userId })
+    getProfile(userId = 1) {
+        return instance2.get(`profile/user?userId=${userId}`)
     },
     getStatus(userId = 1) {
-        return instance2.get(`profile/status`, { userId })
+        return instance2.get(`profile/status?userId=${userId}`)
     },
     updateStatus(id = 1, status) {
-        return instance2.put(`profile/status`, { status: status, id: id })
+        return instance2.put(`profile/status`, {status: status, id: id })
+    },
+    savePhoto(file, id) {
+        var formData = new FormData()
+        formData.append("image", file)
+        return instance2.put('profile/photo', {id: id }, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+    },
+    saveProfile(profile) {
+        return instance2.put("profile/", {profile: profile} )
     }
 }
 
@@ -76,16 +94,16 @@ export const usersAPI = {
 //     }
 // }
 
-//samurai way
 export const followAPI = {
-    follow(ID = 1) {
-        return instance.post(`follow/${ID}`)
+    follow(user, subscriber) {
+        return instance2.post(`subscription/follow`, {user: user, subscriber : subscriber})
             .then(response => response.data);
+
     },
-    unfollow(ID = 1) {
-        return instance.delete(`follow/${ID}`)
+    unfollow(user, subscriber) {
+        return instance2.post(`subscription/unfollow`, {user: user, subscriber : subscriber})
             .then(response => response.data);
-    }
+    }   
 }
 
 

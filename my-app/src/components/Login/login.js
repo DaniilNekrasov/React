@@ -13,13 +13,12 @@ const LoginForm = ({handleSubmit, error}) => {
             <Field placeholder="login" name = {"login"} component={Input}
             validate = {required}/>
         </div>
+        <br></br>
         <div>
             <Field placeholder="Password" name = {"password"} component={Input}
             type = {'password'} validate = {required}/>
         </div>
-        <div>
-            <Field component={'input'} name = {"rememberMe"} type={"checkbox"}/>remember me
-        </div>
+        <br></br>
         {error && <div className={style.formSummaryError}>{error}</div>}
         <div>
             <button>Go</button>

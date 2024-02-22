@@ -19,3 +19,11 @@
     padding: 5px;
     margin: 5px;
 }
+
+.butt {
+    background-color: aqua;
+    margin-left: 400px;
+    margin-top: 85px;
+    font-size: larger;
+    font-weight: 700;
+}

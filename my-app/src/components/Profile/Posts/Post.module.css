@@ -5,7 +5,7 @@
     margin: 10px;
 }
 .post {
-    margin-top: 10px;
+    margin: 10px;
     background-color:rgb(238, 149, 117);
     border-radius: 20px;
 }
@@ -18,6 +18,14 @@
     background-color: rgb(238, 90, 176);
 }
 
-.likesCount{
-    align-items:last baseline;
+.date{
+    color: rgb(62, 62, 65);
+    padding: 10px;
+    text-align: end;
+    font-size: medium;
+}
+
+.post h2{
+    padding-left: 20px;
+    padding-top: 10px;
 }

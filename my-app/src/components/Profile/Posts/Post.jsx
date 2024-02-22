@@ -1,20 +1,19 @@
 import s from './Post.module.css'
+import userPhoto from './../../../assets/images/user.jpg';
 
 const Post = (props) => {
-
     const onDeletePost = async () => {
         await props.deletePost(props.id)
         props.getPosts()
     }
     return (
         <div className={s.post}>
-            {/* <img src = {(props.photo.photos.large !== null) ? props.photo.photos.large : */}
-            <img src ={'https://smotrim.net/uploads/posts/2019-05/1557473641_obeziany-1.jpg'} alt = {'noPhoto'}></img>
+            <h2>{props.newsFlag && props.author}</h2>
+            <img src={(props.photo !== undefined) ? props.photo : userPhoto} />
             {props.message}
-            <div className={s.likesCount}>
-                {props.likesCount}
-            </div>
-            <button onClick={onDeletePost} >Delete</button>
+            <br></br>
+            {props.owner == props.author && !props.newsFlag && <button onClick={onDeletePost}>Delete</button>}
+            <div className={s.date}>{props.date}</div>
         </div>
     )
 }

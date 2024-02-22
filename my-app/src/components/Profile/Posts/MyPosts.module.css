@@ -1,7 +1,28 @@
 .MyPosts{
     padding: 15px;
 }
-
 .posts{
     padding-top: 30px;
+}
+.input{
+    padding: 10px;
+    font-size: large;
+    width: 700px;
+    height: 100px;
+    border-radius: 15px;
+    background-color: rgb(217, 248, 248);
+}
+
+.MyPosts textarea{
+    font-size: large;
+    width: 700px;
+    height: 100px;
+    background-color: antiquewhite;
+}
+.MyPosts button{
+    margin-left: 20px;
+    font-size: larger;
+    font-weight: 500;
+    width: 150px;
+    background-color:rgb(226, 196, 132);
 }

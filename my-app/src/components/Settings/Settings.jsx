@@ -48,8 +48,8 @@ const Settings = (props) => {
 
     if (!connected) {
         return (
-            <div className="center">
-                    <button onClick={connect}>Connect to chat</button>
+            <div>
+                <button className={s.butt} onClick={connect}>Connect to chat</button>
             </div>
         )
     }
