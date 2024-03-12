@@ -1,9 +1,11 @@
-import preloader from "../../assets/images/ZZ5H.gif"
+import preloader from "../../assets/images/ZZ5H.gif";
 
 let Preloader = (props) => {
-    return <div>
-        <img src = {preloader}/>
-        </div>
-}
+  return (
+    <div>
+      <img src={preloader} />
+    </div>
+  );
+};
 
-export default Preloader
+export default Preloader;

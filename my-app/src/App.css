@@ -9,9 +9,5 @@
   justify-items: stretch;
   align-items: stretch;
   justify-content: space-between;
-}
-
-.app-wrapper-content {
-  background-color: rgb(179, 168, 245);
-  border-radius: 20px;
+  /* background: linear-gradient(to right, #8d67a3, #512697); */
 }

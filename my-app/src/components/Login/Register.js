@@ -1,26 +1,26 @@
 import React from "react";
 import { connect } from "react-redux";
-import { login } from "../../Redux/authReducer";
+import { register } from "../../Redux/authReducer";
 import { Navigate, useNavigate } from "react-router-dom";
 import { Formik } from "formik";
-import { Button, Form, Input } from "antd";
+import { Button, Input, Form } from "antd";
 
-const Login = (props) => {
+const Register = (props) => {
   let navigate = useNavigate();
   if (props.isAuth) {
     return <Navigate to={"/profile"} />;
   }
   const redirect = () => {
-    navigate("/register");
+    navigate("/login");
   };
 
   return (
     <Formik
-      initialValues={{ login: "", password: "" }}
+      initialValues={{ email: "", password: "" }}
       validate={(values) => {
         const errors = {};
-        if (!values.login) {
-          errors.login = "Login required";
+        if (!values.email) {
+          errors.email = "Email required";
         }
         if (!values.password) {
           errors.password = "Password required";
@@ -28,7 +28,7 @@ const Login = (props) => {
         return errors;
       }}
       onSubmit={(values) => {
-        props.login(values.login, values.password, values.rememberMe);
+        props.register(values.email, values.password, values.rememberMe);
       }}
     >
       {({
@@ -40,7 +40,21 @@ const Login = (props) => {
         handleSubmit,
         isSubmitting,
       }) => (
-        <Form onSubmit={handleSubmit} className="px-4 py-6">
+        <Form onSubmit={handleSubmit} className="px-4 py-6 ">
+          <div>
+            <Input
+              className="w-60 m-3 p-2 border-2 border-black"
+              type="email"
+              name="email"
+              placeholder="email"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.email}
+            />
+          </div>
+          {errors.email && touched.email && (
+            <div className="text-red-500 mx-3">{errors.email}</div>
+          )}
           <div>
             <Input
               className="w-60 m-3 p-2 border-2 border-black"
@@ -74,15 +88,14 @@ const Login = (props) => {
             type="submit"
             disabled={isSubmitting}
           >
-            Login
+            Create profile
           </Button>
-          <div className="m-3">Have no account yet?</div>
           <Button
             className="bg-black text-white m-3"
             type="redirect"
             onClick={redirect}
           >
-            Register
+            Back to login
           </Button>
         </Form>
       )}
@@ -94,4 +107,4 @@ const mapStateToProps = (state) => ({
   isAuth: state.auth.isAuth,
 });
 
-export default connect(mapStateToProps, { login })(Login);
+export default connect(mapStateToProps, { register })(Register);
