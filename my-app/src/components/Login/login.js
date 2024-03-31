@@ -13,7 +13,6 @@ const Login = (props) => {
   const redirect = () => {
     navigate("/register");
   };
-
   return (
     <Formik
       initialValues={{ login: "", password: "" }}
@@ -72,7 +71,8 @@ const Login = (props) => {
           <Button
             className="bg-black text-white m-3"
             type="submit"
-            disabled={isSubmitting}
+            //disabled={isSubmitting}
+            onClick={handleSubmit}
           >
             Login
           </Button>

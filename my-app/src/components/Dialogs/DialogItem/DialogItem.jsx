@@ -6,14 +6,14 @@ import { Image } from "antd";
 const DialogItem = (Props) => {
   return (
     <NavLink
-      to={"/dialogs/" + Props.id}
+      to={"/dialogs?chatId=" + Props.id}
       className={(navData) => (navData.isActive ? s.active : s.dialog)}
     >
       <div className="bg-slate-400 p-2 border-y-2 border-black">
         <Image src={image} alt={image} className="rounded-full" width={50} />
         {
           //last message
-          Props.name
+          Props.login
         }
       </div>
     </NavLink>

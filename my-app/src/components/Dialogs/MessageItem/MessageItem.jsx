@@ -1,13 +1,18 @@
-import s from './../Dialogs.module.css'
-
-
 const MessageItem = (props) => {
-    return (
-        <div className={!props.sender && s.right}>
-            <span className={props.sender ? s.lMessage : s.rMessage}>{props.message}</span>
-            <br />
-        </div>
-    )
-}
+  return (
+    <div className={!props.sender && "text-end"}>
+      {/* <span>{props.sender}</span> */}
+      <span
+        className={
+          props.sender
+            ? "bg-purple-300 p-2 rounded-lg"
+            : "bg-purple-600 p-2 rounded-lg"
+        }
+      >
+        {props.message}
+      </span>
+    </div>
+  );
+};
 
-export default MessageItem; 
+export default MessageItem;

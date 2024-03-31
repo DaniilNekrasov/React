@@ -29,3 +29,4 @@ science social network doc
 
     https://lucide.dev/guide/packages/lucide-react -- иконки
     https://www.youtube.com/watch?v=BwcznghxxHk -- гайд на соц сеть
+    https://www.youtube.com/watch?v=6Xka__4typg -- гайд призма + бэк

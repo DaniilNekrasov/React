@@ -1,12 +1,17 @@
 import { connect } from "react-redux";
 import { compose } from "redux";
-import { sendMessage, setMessages } from "../../Redux/messagesReducer";
+import {
+  sendMessage,
+  setMessages,
+  setDialogs,
+} from "../../Redux/messagesReducer";
 import { withAuthRedirect } from "../HOC/WithAuthRedirect";
 import Dialogs from "./Dialogs";
 
 let mapStateToProps = (state) => {
   return {
     messagesPage: state.messagesPage,
+    userId: state.auth.userId,
   };
 };
 
@@ -15,8 +20,11 @@ let mapDispatchToProps = (dispatch) => {
     sendMessage: (newMessageBody) => {
       dispatch(sendMessage(newMessageBody));
     },
-    getDialog: () => {
-      dispatch(setMessages());
+    getMessages: (dialogId) => {
+      dispatch(setMessages(dialogId));
+    },
+    getDialogs: (userId) => {
+      dispatch(setDialogs(userId));
     },
   };
 };

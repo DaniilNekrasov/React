@@ -25,8 +25,10 @@ const Navigation = () => {
           to="dialogs"
           className={(navData) => (navData.isActive ? s.active : s.item)}
         >
-          <MessageCircle></MessageCircle>
-          Dialogs
+          <div className={s.page}>
+            <MessageCircle></MessageCircle>
+            Dialogs
+          </div>
         </NavLink>
       </div>
       <NavLink

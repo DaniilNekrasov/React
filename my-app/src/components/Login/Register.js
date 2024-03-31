@@ -19,8 +19,15 @@ const Register = (props) => {
       initialValues={{ email: "", password: "" }}
       validate={(values) => {
         const errors = {};
+        if (!values.login) {
+          errors.login = "Login required";
+        }
         if (!values.email) {
           errors.email = "Email required";
+        } else if (
+          !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
+        ) {
+          errors.email = "Invalid email address";
         }
         if (!values.password) {
           errors.password = "Password required";
@@ -28,7 +35,7 @@ const Register = (props) => {
         return errors;
       }}
       onSubmit={(values) => {
-        props.register(values.email, values.password, values.rememberMe);
+        props.register(values.login, values.password, values.email);
       }}
     >
       {({
@@ -86,7 +93,8 @@ const Register = (props) => {
           <Button
             className="bg-black text-white m-3"
             type="submit"
-            disabled={isSubmitting}
+            // disabled={isSubmitting}
+            onClick={handleSubmit}
           >
             Create profile
           </Button>
