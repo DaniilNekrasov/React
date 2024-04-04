@@ -8,7 +8,8 @@ import Chat from "./Chat";
 
 const Dialogs = (props) => {
   const navigate = useNavigate();
-  let [chatId] = useSearchParams();
+  let [param] = useSearchParams();
+  let chatId = param.get("chatId");
   let state = props.messagesPage;
   let dialogsElements = state.dialogs.map((dialog) => (
     <DialogItem login={dialog.login} key={dialog.id} id={dialog.id} /> // give there dialogid not userid
@@ -25,11 +26,11 @@ const Dialogs = (props) => {
   useEffect(() => {
     try {
       props.getDialogs(props.userId);
-      props.getMessages(chatId.get("chatId") || 1);
+      props.getMessages(chatId || 1);
     } catch (e) {
       navigate("/login");
     }
-  }, []);
+  }, [chatId]);
 
   return (
     <nav className={s.dialogs}>
@@ -37,7 +38,7 @@ const Dialogs = (props) => {
       <Chat
         addNewMessage={props.sendMessage}
         messageElements={messageElements}
-        chatId={chatId.get("chatId") || 1}
+        chatId={chatId || 1}
         userId={props.userId}
       />
     </nav>

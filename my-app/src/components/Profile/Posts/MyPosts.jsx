@@ -1,68 +1,86 @@
-import React, { useState } from 'react';
-import s from './MyPosts.module.css'
-import Post from './Post';
-import { reduxForm, Field, reset } from "redux-form";
-import { maxLengthCreator, required } from '../../Login/Validators';
-import { Textarea } from '../../common/FormsControls';
-import { useEffect } from 'react';
-
+import React from "react";
+import Post from "./Post";
+import { Form, Formik } from "formik";
+import { Button, Input } from "antd";
+import TextArea from "antd/es/input/TextArea";
 
 const MyPosts = (props) => {
-    const [value, setValue] = useState('')
+  let postElements = props.posts.map((info) => (
+    <Post
+      getPosts={props.getPosts}
+      message={info.content}
+      deletePost={props.deletePost}
+      key={info.id}
+      id={info.id}
+      photo={props.photo}
+      owner={props.owner}
+      author={props.author}
+      date={info.date}
+      title={info.title}
+    />
+  ));
 
-    let postElements =
-        props.posts.map((info) => <Post getPosts={props.getPosts}
-            message={info.content} deletePost={props.deletePost}
-            key={info.id} id={info.post_id} photo={props.photo}
-            owner={props.owner} author={props.author}
-            date = {info.date} />);
+  return (
+    <div>
+      <Formik
+        initialValues={{ content: "", title: "" }}
+        onSubmit={(values, { resetForm }) => {
+          props.addPost(props.author, values.content, values.title);
+          resetForm();
+        }}
+        validate={(values) => {
+          const errors = {};
+          if (!values.title) {
+            errors.title = "Title required";
+          }
+          if (!values.content) {
+            errors.content = "Content required";
+          }
+          return errors;
+        }}
+      >
+        {({ values, handleChange, handleSubmit, errors, touched }) => (
+          <Form onSubmit={handleSubmit} className="m-5 space-y-3">
+            {props.owner === props.author && (
+              <Input
+                placeholder="New post title"
+                onChange={handleChange}
+                name="title"
+                type="text"
+                value={values.title}
+              ></Input>
+            )}
+            {errors.title && touched.title && (
+              <div className="text-red-500 mx-3">{errors.title}</div>
+            )}
+            {props.owner === props.author && (
+              <TextArea
+                name="content"
+                placeholder="New post text"
+                onChange={handleChange}
+                type="text"
+                value={values.content}
+              />
+            )}
+            {errors.content && touched.content && (
+              <div className="text-red-500 mx-3">{errors.content}</div>
+            )}
+            {props.owner === props.author && (
+              <Button
+                className="bg-blue-400"
+                type="submit"
+                onClick={handleSubmit}
+              >
+                Post
+              </Button>
+            )}
+          </Form>
+        )}
+      </Formik>
+      <h3>My posts</h3>
+      <div className="space-y-4">{postElements}</div>
+    </div>
+  );
+};
 
-    let onAddPost = (values) => {
-        props.addPost(props.author, value)
-        props.getPosts(props.author)
-        setValue("")
-    }
-    // useEffect(() => {
-    //     if (props.owner == props.author) {
-    //         props.getPosts(props.author)
-    //     }
-    // }, [])
-
-    return (
-        <div >
-            <div className={s.MyPosts}>
-                {props.owner == props.author && <textarea placeholder= "New post text"
-                onChange={e => setValue(e.target.value)} type="text" value={value} />}
-                {props.owner == props.author && <button onClick={onAddPost}>Post</button>}
-            </div>
-            {/* <AddPostFormRedux onSubmit={onAddPost} />} */}
-            <br></br>
-            <h3>My posts</h3>
-            <div className={s.posts}>
-                {postElements}
-            </div>
-        </div>
-    )
-}
-
-const maxLength10 = maxLengthCreator(100);
-
-const AddPostForm = (props) => {
-    return (
-        <form onSubmit={props.handleSubmit}>
-            <div>
-                <Field component={Textarea} name='newPostText'
-                    validate={[required, maxLength10]}
-                    className={s.input} placeholder='New post'
-                ></Field>
-            </div>
-            <div>
-                <button>Add post</button>
-            </div>
-        </form >
-    )
-}
-
-const AddPostFormRedux = reduxForm({ form: "AddPostForm" })(AddPostForm)
-
-export default MyPosts; 
+export default MyPosts;

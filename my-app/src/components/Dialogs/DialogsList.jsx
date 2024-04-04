@@ -8,7 +8,6 @@ const DialogsList = (props) => {
       <Input placeholder="Search" onChange={(e) => setSearch(e.target.value)} />
       {props.items
         .filter((dialog) => {
-          debugger;
           return dialog.props.login
             .toLowerCase()
             .includes(search.toLowerCase());

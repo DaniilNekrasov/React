@@ -51,7 +51,11 @@ const Chat = (props) => {
 
   return (
     <div className="h-96">
-      <div className="bg-white p-4 m-5">{props.messageElements}</div>
+      <div className="bg-white p-4 m-5">
+        {props.messageElements.length === 1
+          ? "No messages yet"
+          : props.messageElements}
+      </div>
       <div className="p-1 m-1">
         <TextArea
           className=""

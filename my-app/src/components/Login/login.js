@@ -37,7 +37,6 @@ const Login = (props) => {
         handleChange,
         handleBlur,
         handleSubmit,
-        isSubmitting,
       }) => (
         <Form onSubmit={handleSubmit} className="px-4 py-6">
           <div>

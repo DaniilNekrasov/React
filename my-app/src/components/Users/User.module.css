@@ -1,22 +1,18 @@
 .container {
-    padding: 10px;
-    margin: 10px; 
-    border-radius: 10px;
-    background-color: rgb(122, 114, 238);   
+  padding: 10px;
+  margin: 10px;
+  border-radius: 10px;
+  background-color: rgb(122, 114, 238);
 }
-.userPhoto { 
-    width: 120px;
-    height: 120px;
-    border-radius: 20px;
-}
+
 .selectedPage {
-    font-weight: bold;
+  font-weight: bold;
 }
 .but {
-    background-color: rgb(124, 51, 240);
-    border-radius: 5px;
-    width: 90px;
-    height: 35px;
-    font-size: large;
-    border-width: 1px;
+  background-color: rgb(124, 51, 240);
+  border-radius: 5px;
+  width: 90px;
+  height: 35px;
+  font-size: large;
+  border-width: 1px;
 }

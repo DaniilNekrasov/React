@@ -31,14 +31,16 @@ export const postsAPI = {
   getPosts(id) {
     return instance2.get(`profile/posts?userId=${id}`);
   },
-  addPost(id, text) {
-    var date = new Date(Date.now());
+  addPost(id, text, title) {
+    var date = new Date(Date.now()).toISOString();
     return instance2.post(`profile/posts?userId=${id}`, {
       content: text,
       date: date.toLocaleString(),
+      title: title,
     });
   },
   deletePost(id) {
+    debugger;
     return instance2.delete(`profile/posts?postId=${id}`);
   },
   getSubscribes(id) {

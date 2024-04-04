@@ -45,13 +45,11 @@ export const setDialogsAC = (dialogs) => ({ type: SET_DIALOGS, dialogs });
 
 export const setMessages = (dialogId) => async (dispatch) => {
   let messages = await messagesAPI.getMessages(dialogId);
-  debugger;
   dispatch(setMessagesAC(messages.data.messages));
 };
 
 export const setDialogs = (userId) => async (dispatch) => {
   let dialogs = await messagesAPI.getDialogs(userId);
-  debugger;
   dispatch(setDialogsAC(dialogs.data.dialogs));
 };
 
