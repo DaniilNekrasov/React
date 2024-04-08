@@ -25,7 +25,13 @@ science social network doc
 4. БД
    + 1) задуматься над выбором другой БД
    + 2) построить схему
-    3) хранение файлов https://www.youtube.com/watch?v=bwlfo9G1b2c
+   + 3) хранение файлов https://www.youtube.com/watch?v=bwlfo9G1b2c
+5. баги
+1) статус
+2) обновление фото сразу же
+3) добавление поста сразу же
+4) новости
+5) логин
 
     https://lucide.dev/guide/packages/lucide-react -- иконки
     https://www.youtube.com/watch?v=BwcznghxxHk -- гайд на соц сеть

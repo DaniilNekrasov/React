@@ -6,12 +6,12 @@
 
 .header {
   grid-area: h;
-  background-color: rgb(187, 240, 222);
-  border-radius: 20px;
+  background-color: #333333;
+  color: #ffffff;
 }
 
 .loginBlock {
-  float:right;
+  float: right;
   font-size: large;
 }
 

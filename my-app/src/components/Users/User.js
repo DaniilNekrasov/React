@@ -5,14 +5,19 @@ import styles from "./User.module.css";
 import { Button, Image } from "antd";
 
 let User = ({ user, unfollow, follow, following, subId }) => {
+  debugger;
   return (
     <div className={styles.container}>
       <span>
         <div>
           <NavLink to={"/profile/" + user.id}>
             <Image
-              src={user.photo ? user.photo : userPhoto}
+              src={`http://localhost:3001/user/avatar/${
+                user.avatarURL?.split("\\")[1]
+              }`}
+              fallback={userPhoto}
               width={200}
+              height={200}
               className="rounded-lg"
             />
           </NavLink>

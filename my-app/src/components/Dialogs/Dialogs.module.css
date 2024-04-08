@@ -1,47 +1,47 @@
 .dialogs {
-    display:grid;
-    grid-template-columns: 2fr 10fr;
-    height: 100%;
+  display: grid;
+  grid-template-columns: 2fr 10fr;
+  height: 100%;
 }
 
 .dialognames {
-    padding: 15px;  
-    border-radius:20px;
-    background-color: rgb(116, 175, 230);
+  padding: 15px;
+  border-radius: 20px;
+  background-color: rgb(116, 175, 230);
 }
 
 .active {
-    color:rgb(190, 13, 196);
-    text-decoration: none;
-    font-size: larger;
+  color: rgb(190, 13, 196);
+  text-decoration: none;
+  font-size: larger;
 }
 
 .dialog {
-    color:rgb(45, 53, 82);
-    text-decoration: none;
+  color: rgb(45, 53, 82);
+  text-decoration: none;
 }
 
 .messages {
-    background-color:darkseagreen;
-    border-radius: 20px;
-    padding: 20px;
+  background-color: darkseagreen;
+  border-radius: 20px;
+  padding: 20px;
 }
 .lMessage {
-    margin: 5px;
-    line-height:40px;
-    padding: 5px;
-    border-radius: 20%;
-    background-color:rgb(37, 228, 125);
+  margin: 5px;
+  line-height: 40px;
+  padding: 5px;
+  border-radius: 20%;
+  background-color: rgb(37, 228, 125);
 }
 
 .rMessage {
-    margin: 5px;
-    line-height:40px;
-    padding: 5px;
-    border-radius: 20%;
-    background-color:rgb(137, 228, 125);
+  margin: 5px;
+  line-height: 40px;
+  padding: 5px;
+  border-radius: 20%;
+  background-color: rgb(137, 228, 125);
 }
 
 .right {
-    text-align: end;
+  text-align: end;
 }

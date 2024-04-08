@@ -5,7 +5,7 @@ import ProfileStatusHook from "./ProfileStatusHook";
 import { useState } from "react";
 import ProfileDataForm from "./ProfileDataForm";
 import { saveProfile } from "../../../Redux/profileReducer";
-import { Image } from "antd";
+import { Image, Input } from "antd";
 
 const ProfileInfo = (props) => {
   let [editMode, setEditMode] = useState(false);
@@ -14,28 +14,40 @@ const ProfileInfo = (props) => {
     return <Preloader />;
   }
 
-  // const onMainPhotoSelected = (e) => {
-  //     if (e.target.files.length) {
-  //         props.savePhoto(e.target.files[0], props.profile.id)
-  //     }
-  // }
+  const onMainPhotoSelected = (e) => {
+    if (e.target.files.length) {
+      props.savePhoto(e.target.files[0], props.profile.id);
+    }
+  };
 
   const onSubmit = async (formData) => {
     await saveProfile(formData).then(() => {
       setEditMode(false);
     });
   };
-
+  debugger;
   return (
     <div>
       <div className={s.describe}>
         <Image
           width={250}
+          height={250}
           className="rounded-lg"
-          src={props.profile.photo || userPhoto}
+          src={`http://localhost:3001/user/avatar/${
+            props.profile.avatarURL?.split("\\")[1]
+          }`}
+          fallback={userPhoto}
         />
-        <br></br>
+        {props.isOwner && (
+          <Input
+            className="w-1/4"
+            type="file"
+            onChange={onMainPhotoSelected}
+            accept="image/*,.png,.jpg,.web"
+          ></Input>
+        )}
         <h2>{props.profile.login}</h2>
+        <h3>{props.profile.email}</h3>
         {props.isOwner ? (
           <ProfileStatusHook
             id={props.profile.id}
@@ -45,9 +57,8 @@ const ProfileInfo = (props) => {
         ) : (
           <div>{props.status}</div>
         )}
-        <span>subscribers: {props.subscribers}</span>
-        <br></br>
-        <span>subscribes: {props.subscribes}</span>
+        <p>subscribers: {props.subscribers}</p>
+        <p>subscribes: {props.subscribes}</p>
         {editMode ? (
           <ProfileDataForm
             props={props}

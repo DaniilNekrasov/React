@@ -36,7 +36,11 @@ const Chat = (props) => {
   //     console.log("Socket error");
   //   };
   // }
-  // useEffect();
+  useEffect(() => {
+    const container = document.querySelector(".bg-gray-500");
+    container.scrollTop = container.scrollHeight;
+  }, []);
+
   const sendMessage = async () => {
     const message = {
       senderId: userId,
@@ -50,13 +54,11 @@ const Chat = (props) => {
   };
 
   return (
-    <div className="h-96">
-      <div className="bg-white p-4 m-5">
-        {props.messageElements.length === 1
-          ? "No messages yet"
-          : props.messageElements}
+    <div>
+      <div className="bg-gray-500 overflow-y-auto space-y-4 max-h-96 p-2 m-3 relative">
+        {props.messageElements}
       </div>
-      <div className="p-1 m-1">
+      <div className="p-1 m-2">
         <TextArea
           className=""
           onChange={(e) => setValue(e.target.value)}

@@ -12,12 +12,13 @@ const Dialogs = (props) => {
   let chatId = param.get("chatId");
   let state = props.messagesPage;
   let dialogsElements = state.dialogs.map((dialog) => (
-    <DialogItem login={dialog.login} key={dialog.id} id={dialog.id} /> // give there dialogid not userid
+    <DialogItem dialog={dialog} key={dialog.id} />
   ));
   let messageElements = state.messages.map((message) => (
     <MessageItem
       sender={message.senderId}
       message={message.text}
+      date={message.date}
       key={message.id}
       id={message.id}
     />

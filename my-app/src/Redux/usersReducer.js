@@ -94,10 +94,11 @@ export const getUsers = (currentPage, pageSize, id) => {
     let response = await usersAPI.getUsers(currentPage, pageSize);
     let follows = [];
     follows = (await postsAPI.getSubscribes(id)).data;
+    debugger;
     let fol = [];
     let ind = 0;
     while (follows.length > ind) {
-      fol.push(follows[ind].user_id);
+      fol.push(follows[ind].subscribedToId);
       ind++;
     }
     let i = 0;

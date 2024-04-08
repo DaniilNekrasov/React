@@ -5,12 +5,7 @@ const SET_MESSAGES = "SET_MESSAGES";
 const SET_DIALOGS = "SET_DIALOGS";
 
 let initialState = {
-  dialogs: [
-    { id: 1, login: "Danul" },
-    { id: 2, login: "Dimon" },
-    { id: 3, login: "Sapun" },
-    { id: 4, login: "Kostik" },
-  ],
+  dialogs: [],
   messages: [],
 };
 
@@ -49,6 +44,7 @@ export const setMessages = (dialogId) => async (dispatch) => {
 };
 
 export const setDialogs = (userId) => async (dispatch) => {
+  debugger;
   let dialogs = await messagesAPI.getDialogs(userId);
   dispatch(setDialogsAC(dialogs.data.dialogs));
 };

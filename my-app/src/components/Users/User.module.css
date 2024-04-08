@@ -2,14 +2,14 @@
   padding: 10px;
   margin: 10px;
   border-radius: 10px;
-  background-color: rgb(122, 114, 238);
+  background-color: rgb(47, 44, 82);
 }
 
 .selectedPage {
   font-weight: bold;
 }
 .but {
-  background-color: rgb(124, 51, 240);
+  background-color: rgb(39, 18, 73);
   border-radius: 5px;
   width: 90px;
   height: 35px;

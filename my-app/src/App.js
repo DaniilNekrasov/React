@@ -73,7 +73,7 @@ class App extends Component {
         <div className="app-wrapper">
           <HeaderContainer />
           <Navigation />
-          <div className="bg-gradient-to-l from-orange-300 to-purple-200">
+          <div className="bg-gray-600 text-white">
             <React.Suspense
               fallback={
                 <div>
@@ -113,7 +113,7 @@ let MainApp = (props) => {
     <React.StrictMode>
       <Provider store={store}>
         <BrowserRouter>
-          <AppContainer />
+          <AppContainer className={"bg-gray-900"} />
         </BrowserRouter>
       </Provider>
     </React.StrictMode>

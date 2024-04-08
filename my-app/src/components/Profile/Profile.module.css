@@ -1,7 +1,7 @@
 .content {
   grid-area: c;
-  background-color: burlywood;
-  border-radius: 20px;
+  background-color: #222222;
+  color: #ffffff;
 }
 
 .item {

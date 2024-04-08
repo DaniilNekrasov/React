@@ -87,6 +87,7 @@ export const setSubscribers = (value) => ({ type: SET_SUBSCRIBERS, value });
 
 export const deletePost = (id) => async (dispatch) => {
   await postsAPI.deletePost(id);
+  debugger;
   dispatch(deletePostAC(id));
 };
 
@@ -123,7 +124,8 @@ export const updateStatus = (id, status) => async (dispatch) => {
 
 export const savePhoto = (file, id) => async (dispatch) => {
   let response = await usersAPI.savePhoto(file, id);
-  if (response.data.message === "success") dispatch(setStatus());
+  if (response.message === "success")
+    dispatch(setUserProfile(response.data.candidate));
 };
 
 export const saveProfile = (profile) => async (dispatch, getState) => {

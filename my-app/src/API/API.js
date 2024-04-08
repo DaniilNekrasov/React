@@ -40,7 +40,6 @@ export const postsAPI = {
     });
   },
   deletePost(id) {
-    debugger;
     return instance2.delete(`profile/posts?postId=${id}`);
   },
   getSubscribes(id) {
@@ -75,14 +74,20 @@ export const usersAPI = {
   updateStatus(id = 1, status) {
     return instance2.put(`profile/status`, { status: status, id: id });
   },
-  savePhoto(file, id) {
+  async savePhoto(file, id) {
     var formData = new FormData();
     formData.append("image", file);
-    return instance2.put("profile/photo", { id: id }, formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+    formData.append("userId", id);
+    const response = await axios.post(
+      "http://localhost:3001/profile/photo",
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    return response.data;
   },
   saveProfile(profile) {
     return instance2.put("profile/", { profile: profile });

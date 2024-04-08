@@ -5,16 +5,17 @@ import { Button, Input } from "antd";
 import TextArea from "antd/es/input/TextArea";
 
 const MyPosts = (props) => {
-  let postElements = props.posts.map((info) => (
+  let postElements = props.profile.posts.map((info) => (
     <Post
+      profile={props.profile}
       getPosts={props.getPosts}
-      message={info.content}
       deletePost={props.deletePost}
       key={info.id}
       id={info.id}
       photo={props.photo}
       owner={props.owner}
       author={props.author}
+      message={info.content}
       date={info.date}
       title={info.title}
     />
@@ -78,7 +79,7 @@ const MyPosts = (props) => {
         )}
       </Formik>
       <h3>My posts</h3>
-      <div className="space-y-4">{postElements}</div>
+      <div className="space-y-4 m-4">{postElements}</div>
     </div>
   );
 };

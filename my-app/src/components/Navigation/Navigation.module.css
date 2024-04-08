@@ -1,18 +1,16 @@
 .nav {
   grid-area: n;
-  background-color: rgb(155, 202, 216);
-  padding: 20px;
-  border-radius: 20px;
+  background-color: #292929;
+  color: #ffffff;
 }
 
 .item {
-  color: rgb(18, 44, 17);
   font-family: "Courier New", Courier, monospace;
   text-decoration: none;
 }
 
 .active {
-  color: rgb(230, 42, 174);
+  color: rgb(194, 78, 248);
   font-family: "Courier New", Courier, monospace;
   font-size: larger;
   text-decoration: none;
@@ -30,5 +28,5 @@
 }
 
 .page:hover {
-  background-color: aquamarine;
+  background-color: rgb(37, 45, 70);
 }

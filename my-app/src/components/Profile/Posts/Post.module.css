@@ -1,31 +1,11 @@
-.post img{
-    width: 100px;
-    height: 100px;
-    border-radius: 50px;
-    margin: 10px;
+.date {
+  color: rgb(62, 62, 65);
+  padding: 10px;
+  text-align: end;
+  font-size: medium;
 }
-.post {
-    margin: 10px;
-    background-color:rgb(238, 149, 117);
-    border-radius: 20px;
-}
-.post button{
-    width: 100px;
-    height: 30px;
-    margin: 10px;
-    border-width: 0;
-    font-size:medium;
-    background-color: rgb(238, 90, 176);
-}
-
-.date{
-    color: rgb(62, 62, 65);
-    padding: 10px;
-    text-align: end;
-    font-size: medium;
-}
-
-.post h2{
-    padding-left: 20px;
-    padding-top: 10px;
+.text {
+  width: 100%; /* Ширина контейнера, в котором отображается текст */
+  word-wrap: break-word; /* Перенос длинных слов на новую строку */
+  overflow-wrap: break-word;
 }
