@@ -14,7 +14,7 @@ const instance = axios.create({
 
 export const messagesAPI = {
   createDialog(id1, id2) {
-    return instance2.post(`messages/createDialog`, { id1, id2 });
+    return instance2.post("messages/createdialog", { id1, id2 });
   },
   getDialogs(userId) {
     return instance2.get(`messages/dialogs?userId=${userId}`);

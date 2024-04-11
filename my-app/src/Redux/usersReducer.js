@@ -93,8 +93,8 @@ export const getUsers = (currentPage, pageSize, id) => {
     dispatch(setCurrentPage(currentPage));
     let response = await usersAPI.getUsers(currentPage, pageSize);
     let follows = [];
-    follows = (await postsAPI.getSubscribes(id)).data;
     debugger;
+    follows = (await postsAPI.getSubscribes(id)).data;
     let fol = [];
     let ind = 0;
     while (follows.length > ind) {

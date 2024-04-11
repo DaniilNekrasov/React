@@ -5,7 +5,6 @@ import styles from "./User.module.css";
 import { Button, Image } from "antd";
 
 let User = ({ user, unfollow, follow, following, subId }) => {
-  debugger;
   return (
     <div className={styles.container}>
       <span>

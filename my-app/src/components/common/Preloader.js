@@ -2,7 +2,7 @@ import preloader from "../../assets/images/ZZ5H.gif";
 
 let Preloader = (props) => {
   return (
-    <div>
+    <div className=" content-center justify-center flex">
       <img src={preloader} />
     </div>
   );

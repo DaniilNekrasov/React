@@ -33,7 +33,6 @@ class ProfileContainer extends React.Component {
     }
     this.props.getUserProfile(userId);
     this.props.getStatus(userId);
-    this.props.getUserPosts(userId);
   }
 
   componentDidUpdate(prevProps, prevProfile, snapshot) {
@@ -44,7 +43,6 @@ class ProfileContainer extends React.Component {
       }
       this.props.getUserProfile(userId);
       this.props.getStatus(userId);
-      this.props.getUserPosts(userId);
     }
   }
 
@@ -53,8 +51,9 @@ class ProfileContainer extends React.Component {
       <div className={s.content}>
         <Profile
           {...this.props}
+          myId={this.props.myId}
           profile={this.props.profile}
-          isOwner={!this.props.router.params.userId}
+          isOwner={this.props.myId === this.props.profile?.id}
           status={this.props.status}
           updateStatus={this.props.updateStatus}
           savePhoto={this.props.savePhoto}
@@ -73,6 +72,7 @@ let mapStateToProps = (state) => {
     status: state.profilePage.status,
     authorisedUserId: state.auth.userId,
     isAuth: state.auth.isAuth,
+    myId: state.auth.userId,
     subscribes: state.profilePage.subscribes,
     subscribers: state.profilePage.subscribers,
   };

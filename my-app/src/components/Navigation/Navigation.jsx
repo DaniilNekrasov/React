@@ -3,7 +3,7 @@ import s from "./Navigation.module.css";
 import {
   LucideNewspaper,
   MessageCircle,
-  MessageSquare,
+  Calendar,
   UserCircle2,
   UsersRound,
 } from "lucide-react";
@@ -45,8 +45,8 @@ const Navigation = () => {
         className={(navData) => (navData.isActive ? s.active : s.item)}
       >
         <div className={s.page}>
-          <MessageSquare></MessageSquare>
-          Global chat
+          <Calendar></Calendar>
+          Calendar
         </div>
       </NavLink>
       <NavLink

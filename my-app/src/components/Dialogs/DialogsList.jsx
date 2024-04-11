@@ -3,9 +3,8 @@ import React, { useState } from "react";
 
 const DialogsList = (props) => {
   const [search, setSearch] = useState("");
-  debugger;
   return (
-    <div>
+    <div className="overflow-y-auto max-h-96">
       <Input placeholder="Search" onChange={(e) => setSearch(e.target.value)} />
       {props.items
         .filter((dialog) => {

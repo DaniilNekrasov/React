@@ -17,11 +17,9 @@ const DialogItem = (props) => {
           fallback={userPhoto}
           className="rounded-full"
           width={50}
+          height={50}
         />
-        {
-          //last message
-          props.dialog.user[0].login
-        }
+        {(props.dialog.message[0].text, props.dialog.user[0].login)}
       </div>
     </NavLink>
   );

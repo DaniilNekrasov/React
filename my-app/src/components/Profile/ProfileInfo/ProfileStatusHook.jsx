@@ -24,9 +24,9 @@ const ProfileStatusHook = (props) => {
   return (
     <div>
       {!editMode ? (
-        <h4>
-          <span onDoubleClick={activateEditMode}>{status || "-------"}</span>
-        </h4>
+        <div className="px-4 py-2 text-lg " onDoubleClick={activateEditMode}>
+          Status: {status || ""}
+        </div>
       ) : (
         <h4>
           <input

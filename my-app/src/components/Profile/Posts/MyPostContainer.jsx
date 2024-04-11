@@ -6,14 +6,35 @@ import {
 } from "../../../Redux/profileReducer";
 import MyPosts from "./MyPosts";
 import React from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { compose } from "redux";
 
+function withRouter(Component) {
+  function ComponentWithRouterProp(props) {
+    let location = useLocation();
+    let navigate = useNavigate();
+    let params = useParams();
+    return <Component {...props} router={{ location, navigate, params }} />;
+  }
+
+  return ComponentWithRouterProp;
+}
 class UserPosts extends React.Component {
   componentDidMount() {
-    if (this.props.router !== undefined) {
+    debugger;
+    let userId = this.props.router.params.userId;
+    if (!userId) {
+      userId = this.props.author;
+    }
+    this.props.getUserPosts(userId);
+  }
+
+  componentDidUpdate(prevProps, prevProfile, snapshot) {
+    if (this.props.router.params.userId !== prevProps.router.params.userId) {
       let userId = this.props.router.params.userId;
-      this.props.getUserPosts(userId);
-    } else {
-      let userId = this.props.author;
+      if (!userId) {
+        userId = this.props.author;
+      }
       this.props.getUserPosts(userId);
     }
   }
@@ -47,6 +68,6 @@ let MyPostContainer = connect(mapStateToProps, {
   addPost,
   getUserPosts,
   deletePost,
-})(UserPosts);
+});
 
-export default MyPostContainer;
+export default compose(MyPostContainer, withRouter)(UserPosts);

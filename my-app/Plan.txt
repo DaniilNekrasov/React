@@ -8,7 +8,7 @@ science social network doc
 2. Дизайн
    + 1) подключение UI KIT
     2) рефакторинг существующего дизайна
-   + 3) tailwind         ?
+   + 3) tailwind         
     4) темная тема
     5) прячущийся сайдбар
 3. Функционал
@@ -27,10 +27,8 @@ science social network doc
    + 2) построить схему
    + 3) хранение файлов https://www.youtube.com/watch?v=bwlfo9G1b2c
 5. баги
-1) статус
 2) обновление фото сразу же
 3) добавление поста сразу же
-4) новости
 5) логин
 
     https://lucide.dev/guide/packages/lucide-react -- иконки

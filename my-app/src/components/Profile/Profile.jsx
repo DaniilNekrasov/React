@@ -6,6 +6,7 @@ const Profile = (props) => {
   return (
     <div className={s.content}>
       <ProfileInfo
+        myId={props.myId}
         profile={props.profile}
         saveProfile={props.saveProfile}
         isOwner={props.isOwner}

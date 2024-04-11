@@ -1,16 +1,23 @@
 import s from "./Post.module.css";
 import userPhoto from "./../../../assets/images/user.jpg";
 import { Button, Image } from "antd";
+import dayjs from "dayjs";
+import { NavLink } from "react-router-dom";
 
 const Post = (props) => {
-  debugger;
   const onDeletePost = async () => {
     await props.deletePost(props.id);
     props.getPosts(props.profile.curId);
   };
   return (
-    <div className="bg-neutral-400 p-5 max-w-screen-lg  mx-auto">
-      <h1>{props.newsFlag && props.author}</h1>
+    <div className="bg-neutral-400 p-5 max-w-screen-lg mx-auto">
+      <h1 className="text-xl font-bold ml-3">
+        {props.newsFlag && (
+          <NavLink to={"/profile/" + props.profile.profile.id}>
+            {props.profile.profile.login}
+          </NavLink>
+        )}
+      </h1>
       <Image
         src={`http://localhost:3001/user/avatar/${
           props.profile.profile.avatarURL?.split("\\")[1]
@@ -22,7 +29,7 @@ const Post = (props) => {
       />
       {/* //"text-wrap max-w-96"> */}
       <article className={s.text}>
-        <h2>{props.title}</h2>
+        <h2 className="text-2xl text-gray-700">{props.title}</h2>
         <p>{props.message}</p>
       </article>
       {props.owner === props.author && !props.newsFlag && (
@@ -30,7 +37,7 @@ const Post = (props) => {
           Delete
         </Button>
       )}
-      <div className={s.date}>{props.date}</div>
+      <div className={s.date}>{dayjs(props.date).format(`MM.DD HH:mm`)}</div>
     </div>
   );
 };

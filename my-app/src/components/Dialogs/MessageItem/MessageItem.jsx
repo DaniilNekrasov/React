@@ -1,15 +1,24 @@
+import dayjs from "dayjs";
+
 const MessageItem = (props) => {
-  debugger;
   return (
     <div
-      className={
-        props.sender
-          ? "bg-indigo-950 p-2 rounded-lg space-y-2 max-w-72 break-words"
-          : "bg-purple-600 p-2 rounded-lg space-y-2 max-w-72 break-words"
-      }
+      className={`relative flex items-center ${
+        props.sender ? `flex-row-reverse` : ``
+      }`}
     >
-      <span>{props.message}</span>
-      <div className=" text-xs text-gray-400">{props.date?.slice(0, -8)}</div>
+      <div
+        className={`p-3 rounded-2xl text-sm ${
+          props.sender
+            ? "bg-indigo-950 rounded-tr-none break-words max-w-72 mr-1"
+            : "bg-purple-600 rounded-tl-none break-words max-w-72 ml-1"
+        }`}
+      >
+        {props.message}
+      </div>
+      <div className="text-xs block mt-1 opacity-30">
+        {dayjs(props.date).format(`HH:mm`)}
+      </div>
     </div>
   );
 };

@@ -16,7 +16,7 @@ const Dialogs = (props) => {
   ));
   let messageElements = state.messages.map((message) => (
     <MessageItem
-      sender={message.senderId}
+      sender={message.senderId === props.userId}
       message={message.text}
       date={message.date}
       key={message.id}
@@ -27,7 +27,7 @@ const Dialogs = (props) => {
   useEffect(() => {
     try {
       props.getDialogs(props.userId);
-      props.getMessages(chatId || 1);
+      chatId && props.getMessages(chatId);
     } catch (e) {
       navigate("/login");
     }
@@ -39,7 +39,7 @@ const Dialogs = (props) => {
       <Chat
         addNewMessage={props.sendMessage}
         messageElements={messageElements}
-        chatId={chatId || 1}
+        chatId={chatId}
         userId={props.userId}
       />
     </nav>

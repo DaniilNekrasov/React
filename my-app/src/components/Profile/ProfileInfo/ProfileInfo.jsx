@@ -3,12 +3,15 @@ import s from "./ProfileInfo.module.css";
 import userPhoto from "../../../assets/images/user.jpg";
 import ProfileStatusHook from "./ProfileStatusHook";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import ProfileDataForm from "./ProfileDataForm";
 import { saveProfile } from "../../../Redux/profileReducer";
-import { Image, Input } from "antd";
+import { Image, Input, Button } from "antd";
+import { messagesAPI } from "../../../API/API";
 
 const ProfileInfo = (props) => {
   let [editMode, setEditMode] = useState(false);
+  let navigate = useNavigate();
 
   if (!props.profile) {
     return <Preloader />;
@@ -25,7 +28,12 @@ const ProfileInfo = (props) => {
       setEditMode(false);
     });
   };
-  debugger;
+
+  const startDialog = async () => {
+    const dialog = await messagesAPI.createDialog(props.profile.id, props.myId);
+    navigate(`/dialogs?chatId=${dialog.data.id}`);
+  };
+
   return (
     <div>
       <div className={s.describe}>
@@ -38,15 +46,17 @@ const ProfileInfo = (props) => {
           }`}
           fallback={userPhoto}
         />
-        {props.isOwner && (
+        {props.isOwner ? (
           <Input
-            className="w-1/4"
+            className="w-1/4 justify-center content-center"
             type="file"
             onChange={onMainPhotoSelected}
             accept="image/*,.png,.jpg,.web"
           ></Input>
+        ) : (
+          <Button onClick={startDialog}>Send message</Button>
         )}
-        <h2>{props.profile.login}</h2>
+        <h6>{props.profile.login}</h6>
         <h3>{props.profile.email}</h3>
         {props.isOwner ? (
           <ProfileStatusHook
@@ -55,7 +65,7 @@ const ProfileInfo = (props) => {
             updateStatus={props.updateStatus}
           />
         ) : (
-          <div>{props.status}</div>
+          <div className="px-4 py-2 text-lg">Status: {props.status}</div>
         )}
         <p>subscribers: {props.subscribers}</p>
         <p>subscribes: {props.subscribes}</p>

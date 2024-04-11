@@ -1,29 +1,28 @@
-import React from "react";
-import s from "./News.module.css";
+import React, { useEffect } from "react";
 import Post from "../Profile/Posts/Post";
-// import { useEffect } from "react";
 
 const News = (props) => {
   let postElements = props.posts.map((info) => (
     <Post
       getPosts={props.getPosts}
+      title={info.post.title}
       message={info.post.content}
       newsFlag={true}
-      author={info.author}
-      key={info.post.post_id}
-      id={info.post.post_id}
+      profile={info.profile}
+      key={info.post.postId}
+      id={info.post.postId}
       date={info.post.date}
     />
   ));
 
   // useEffect(() => {
-  //     props.getPosts(props.author)
-  // }, [])
+  //   props.getPosts(props.author);
+  // }, []);
 
   return (
-    <div className={s.MyPosts}>
-      <h1 className={s.header}> News</h1>
-      <div className={s.posts}>{postElements}</div>
+    <div className="bg-gray-800 text-white p-4">
+      <h1 className="text-3xl font-bold mb-4">News</h1>
+      <div className="space-y-4">{postElements}</div>
     </div>
   );
 };
