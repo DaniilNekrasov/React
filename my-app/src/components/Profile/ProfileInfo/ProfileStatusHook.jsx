@@ -30,6 +30,7 @@ const ProfileStatusHook = (props) => {
       ) : (
         <h4>
           <input
+            className="text-black"
             onChange={onStatusChange}
             autoFocus={true}
             onBlur={deactivateEditMode}

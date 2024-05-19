@@ -6,6 +6,7 @@ const News = (props) => {
     <Post
       getPosts={props.getPosts}
       title={info.post.title}
+      files={info.post.file}
       message={info.post.content}
       newsFlag={true}
       profile={info.profile}

@@ -6,20 +6,23 @@ import { Image } from "antd";
 const DialogItem = (props) => {
   return (
     <NavLink
-      to={"/dialogs?chatId=" + props.dialog.id}
       className={(navData) => (navData.isActive ? s.active : s.dialog)}
+      to={`/dialogs?chatId=${props.dialog.id}`}
     >
-      <div className="bg-slate-400 p-2 border-y-2 border-black">
+      <div className="bg-slate-400 p-2 border-y-2 border-black w-48">
         <Image
           src={`http://localhost:3001/user/avatar/${
-            props.dialog.user[0].avatarURL?.split("\\")[1]
+            props.dialog.user[0].avatarURL?.split("\\")[2]
           }`}
           fallback={userPhoto}
           className="rounded-full"
           width={50}
           height={50}
         />
-        {(props.dialog.message[0].text, props.dialog.user[0].login)}
+        <p>{props.dialog.user[0].login}</p>
+        <p className="text-sm text-zinc-800 truncate ...">
+          {props.dialog.message[0].text}
+        </p>
       </div>
     </NavLink>
   );

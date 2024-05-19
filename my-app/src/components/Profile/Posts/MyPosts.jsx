@@ -7,6 +7,7 @@ import TextArea from "antd/es/input/TextArea";
 const MyPosts = (props) => {
   let postElements = props.profile.posts.map((info) => (
     <Post
+      files={info.file}
       profile={props.profile}
       getPosts={props.getPosts}
       deletePost={props.deletePost}
@@ -26,7 +27,12 @@ const MyPosts = (props) => {
       <Formik
         initialValues={{ content: "", title: "" }}
         onSubmit={(values, { resetForm }) => {
-          props.addPost(props.author, values.content, values.title);
+          props.addPost(
+            props.author,
+            values.content,
+            values.title,
+            values.files
+          );
           resetForm();
         }}
         validate={(values) => {
@@ -40,7 +46,14 @@ const MyPosts = (props) => {
           return errors;
         }}
       >
-        {({ values, handleChange, handleSubmit, errors, touched }) => (
+        {({
+          values,
+          handleChange,
+          handleSubmit,
+          setFieldValue,
+          errors,
+          touched,
+        }) => (
           <Form onSubmit={handleSubmit} className="m-5 space-y-3">
             {props.owner === props.author && (
               <Input
@@ -65,6 +78,17 @@ const MyPosts = (props) => {
             )}
             {errors.content && touched.content && (
               <div className="text-red-500 mx-3">{errors.content}</div>
+            )}
+            {props.owner === props.author && (
+              <Input
+                type="file"
+                name="files"
+                multiple
+                accept=".pdf,.txt,.doc,.svg,.jpg,.png"
+                onChange={(event) => {
+                  setFieldValue("files", event.currentTarget.files);
+                }}
+              />
             )}
             {props.owner === props.author && (
               <Button

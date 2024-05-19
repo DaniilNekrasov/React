@@ -1,22 +1,25 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { withAuthRedirect } from "../HOC/WithAuthRedirect";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import { Button } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import MessageItem from "./MessageItem/MessageItem";
+import { io } from "socket.io-client";
 
 const Chat = (props) => {
   const [messages, setMessages] = useState([]);
   const [value, setValue] = useState("");
-  const socket = useRef;
+  let socket;
   const [connected, setConnected] = useState(false);
   const userId = props.userId;
   const chatId = props.chatId;
 
   function connect() {
-    socket.current = new WebSocket("ws://localhost:3002");
-    socket.current.onopen = () => {
+    socket = io.connect("http://localhost:3002", {
+      withCredentials: true,
+    });
+    socket.onopen = () => {
       setConnected(true);
       const message = {
         event: "connection",
@@ -24,11 +27,10 @@ const Chat = (props) => {
         userId: userId,
         id: Date.now(),
       };
-      socket.current.send(JSON.stringify(message));
+      socket.send(JSON.stringify(message));
       console.log("Connected");
     };
-    socket.current.onmessage = (event) => {
-      debugger;
+    socket.onmessage = (event) => {
       const message = JSON.parse(event.data);
       const messageElement = (
         <MessageItem
@@ -39,17 +41,19 @@ const Chat = (props) => {
         ></MessageItem>
       );
       setMessages((prev) => [...prev, messageElement]);
+      const container = document.getElementById("scroll");
+      container.scrollTop = container.scrollHeight;
     };
-    socket.current.onclose = () => {
+    socket.onclose = () => {
       console.log("Socket was closed");
     };
-    socket.current.onerror = () => {
+    socket.onerror = () => {
       console.log("Socket error");
     };
   }
 
   useEffect(() => {
-    socket.current?.close(1000, "соединение с чатом " + chatId + " закрыто!");
+    socket?.close(1000, "соединение с чатом " + chatId + " закрыто!");
     if (chatId) {
       const container = document.getElementById("scroll");
       container.scrollTop = container.scrollHeight;
@@ -66,10 +70,8 @@ const Chat = (props) => {
       event: "message",
     };
     props.addNewMessage(message);
-    socket.current.send(JSON.stringify(message));
+    socket.send(JSON.stringify(message));
     setValue("");
-    const container = document.getElementById("scroll");
-    container.scrollTop = container.scrollHeight;
   };
 
   return (

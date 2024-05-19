@@ -41,7 +41,7 @@ const Navigation = () => {
         </div>
       </NavLink>
       <NavLink
-        to="settings"
+        to="calendar"
         className={(navData) => (navData.isActive ? s.active : s.item)}
       >
         <div className={s.page}>

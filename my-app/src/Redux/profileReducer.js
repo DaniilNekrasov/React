@@ -87,12 +87,11 @@ export const setSubscribers = (value) => ({ type: SET_SUBSCRIBERS, value });
 
 export const deletePost = (id) => async (dispatch) => {
   await postsAPI.deletePost(id);
-  debugger;
   dispatch(deletePostAC(id));
 };
 
-export const addPost = (id, text, title) => async (dispatch) => {
-  let newPosts = await postsAPI.addPost(id, text, title);
+export const addPost = (id, text, title, files) => async (dispatch) => {
+  let newPosts = await postsAPI.addPost(id, text, title, files);
   dispatch(setPosts(newPosts));
 };
 

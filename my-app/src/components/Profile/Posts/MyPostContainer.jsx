@@ -21,7 +21,6 @@ function withRouter(Component) {
 }
 class UserPosts extends React.Component {
   componentDidMount() {
-    debugger;
     let userId = this.props.router.params.userId;
     if (!userId) {
       userId = this.props.author;

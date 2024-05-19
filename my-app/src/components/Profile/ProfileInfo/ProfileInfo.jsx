@@ -8,6 +8,7 @@ import ProfileDataForm from "./ProfileDataForm";
 import { saveProfile } from "../../../Redux/profileReducer";
 import { Image, Input, Button } from "antd";
 import { messagesAPI } from "../../../API/API";
+import dayjs from "dayjs";
 
 const ProfileInfo = (props) => {
   let [editMode, setEditMode] = useState(false);
@@ -33,7 +34,7 @@ const ProfileInfo = (props) => {
     const dialog = await messagesAPI.createDialog(props.profile.id, props.myId);
     navigate(`/dialogs?chatId=${dialog.data.id}`);
   };
-
+  debugger;
   return (
     <div>
       <div className={s.describe}>
@@ -42,7 +43,7 @@ const ProfileInfo = (props) => {
           height={250}
           className="rounded-lg"
           src={`http://localhost:3001/user/avatar/${
-            props.profile.avatarURL?.split("\\")[1]
+            props.profile.avatarURL?.split("\\")[2]
           }`}
           fallback={userPhoto}
         />
@@ -56,8 +57,12 @@ const ProfileInfo = (props) => {
         ) : (
           <Button onClick={startDialog}>Send message</Button>
         )}
-        <h6>{props.profile.login}</h6>
-        <h3>{props.profile.email}</h3>
+        <div>{props.profile.login}</div>
+        <div>{props.profile.email}</div>
+        <div>
+          Registration date:{" "}
+          {dayjs(props.profile.lastOnline).format(`YYYY.MM.DD`)}
+        </div>
         {props.isOwner ? (
           <ProfileStatusHook
             id={props.profile.id}

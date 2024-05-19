@@ -2,7 +2,6 @@ import "./App.css";
 import Navigation from "./components/Navigation/Navigation";
 import { Route, Routes } from "react-router-dom";
 import ChatsPage from "./components/Chat/ChatsPage";
-import Music from "./components/Music/Music";
 import UsersContainer from "./components/Users/UsersContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
 import Login from "./components/Login/login";
@@ -16,6 +15,7 @@ import { Provider } from "react-redux";
 import store from "./Redux/reduxStore";
 import { BrowserRouter } from "react-router-dom";
 import Register from "./components/Login/Register";
+import CalendarContainer from "./components/Calendar/CalendarContainer";
 
 const NewsContainer = React.lazy(() =>
   import("./components/News/NewsContainer")
@@ -86,7 +86,7 @@ class App extends Component {
                 <Route path="/profile/:userId" element={<ProfileContainer />} />
                 <Route path="/profile" element={<ProfileContainer />} />
                 <Route path="/news" element={<NewsContainer />} />
-                <Route path="/music" element={<Music />} />
+                <Route path="/calendar" element={<CalendarContainer />} />
                 <Route path="/chat" element={<ChatsPage />} />
                 <Route path="/users" element={<UsersContainer />} />
                 <Route path="/login" element={<Login />} />

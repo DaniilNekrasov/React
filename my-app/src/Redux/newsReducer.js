@@ -23,7 +23,6 @@ export const setNews = (posts) => ({ type: SET_NEWS, posts });
 export const getAllPosts = (id) => {
   return async (dispatch) => {
     const subscribes = (await postsAPI.getSubscribes(id)).data;
-    debugger;
     const arr = [];
 
     for (const subscribe of subscribes) {
@@ -37,7 +36,6 @@ export const getAllPosts = (id) => {
         });
       }
     }
-    debugger;
     arr.sort((a, b) => b.post.id - a.post.id);
 
     dispatch(setNews(arr));

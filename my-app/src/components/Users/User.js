@@ -12,7 +12,7 @@ let User = ({ user, unfollow, follow, following, subId }) => {
           <NavLink to={"/profile/" + user.id}>
             <Image
               src={`http://localhost:3001/user/avatar/${
-                user.avatarURL?.split("\\")[1]
+                user.avatarURL?.split("\\")[2]
               }`}
               fallback={userPhoto}
               width={200}

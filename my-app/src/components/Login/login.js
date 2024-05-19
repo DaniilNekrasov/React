@@ -69,7 +69,7 @@ const Login = (props) => {
           )}
           <Button
             className="bg-black text-white m-3"
-            type="submit"
+            htmlType="submit"
             //disabled={isSubmitting}
             onClick={handleSubmit}
           >

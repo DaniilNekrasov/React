@@ -12,6 +12,15 @@ const instance = axios.create({
   },
 });
 
+export const eventAPI = {
+  async createEvent(userId, event) {
+    return await instance2.post("events/create", { userId, event });
+  },
+  getEvents(userId) {
+    return instance2.get(`events/events?userId=${userId}`);
+  },
+};
+
 export const messagesAPI = {
   createDialog(id1, id2) {
     return instance2.post("messages/createdialog", { id1, id2 });
@@ -31,12 +40,21 @@ export const postsAPI = {
   getPosts(id) {
     return instance2.get(`profile/posts?userId=${id}`);
   },
-  addPost(id, text, title) {
+  addPost(id, text, title, files) {
+    var formData = new FormData();
+    for (let i = 0; i < files.length; i++) {
+      formData.append("files", files[i]);
+    }
+    formData.append("userId", id);
+    formData.append("content", text);
+    formData.append("title", title);
     var date = new Date(Date.now()).toISOString();
-    return instance2.post(`profile/posts?userId=${id}`, {
-      content: text,
-      date: date.toLocaleString(),
-      title: title,
+    formData.append("date", date);
+    debugger;
+    return instance2.post(`profile/posts?userId=${id}`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
     });
   },
   deletePost(id) {
