@@ -11,7 +11,10 @@ import { messagesAPI } from "../../../API/API";
 import dayjs from "dayjs";
 
 const ProfileInfo = (props) => {
-  let [editMode, setEditMode] = useState(false);
+  const handleProfileUpdate = (updatedProfile) => {
+    // Update profile logic here
+    console.log(updatedProfile);
+  };
   let navigate = useNavigate();
 
   if (!props.profile) {
@@ -24,20 +27,13 @@ const ProfileInfo = (props) => {
     }
   };
 
-  const onSubmit = async (formData) => {
-    await saveProfile(formData).then(() => {
-      setEditMode(false);
-    });
-  };
-
   const startDialog = async () => {
     const dialog = await messagesAPI.createDialog(props.profile.id, props.myId);
     navigate(`/dialogs?chatId=${dialog.data.id}`);
   };
-  debugger;
   return (
-    <div>
-      <div className={s.describe}>
+    <div className="p-6 rounded-lg shadow-lg">
+      <div className="flex flex-col items-center space-y-4">
         <Image
           width={250}
           height={250}
@@ -53,16 +49,14 @@ const ProfileInfo = (props) => {
             type="file"
             onChange={onMainPhotoSelected}
             accept="image/*,.png,.jpg,.web"
+            name="select file"
           ></Input>
         ) : (
-          <Button onClick={startDialog}>Send message</Button>
+          <Button className=" bg-slate-400" onClick={startDialog}>
+            Send message
+          </Button>
         )}
-        <div>{props.profile.login}</div>
-        <div>{props.profile.email}</div>
-        <div>
-          Registration date:{" "}
-          {dayjs(props.profile.lastOnline).format(`YYYY.MM.DD`)}
-        </div>
+        <div className="text-xl font-semibold">{props.profile.login}</div>
         {props.isOwner ? (
           <ProfileStatusHook
             id={props.profile.id}
@@ -72,49 +66,19 @@ const ProfileInfo = (props) => {
         ) : (
           <div className="px-4 py-2 text-lg">Status: {props.status}</div>
         )}
-        <p>subscribers: {props.subscribers}</p>
-        <p>subscribes: {props.subscribes}</p>
-        {editMode ? (
-          <ProfileDataForm
-            props={props}
-            initialValues={props.profile}
-            onSubmit={onSubmit}
-          />
-        ) : (
-          <ProfileData props={props} setEditMode={() => setEditMode(true)} />
-        )}
-      </div>
-    </div>
-  );
-};
-
-const ProfileData = ({ props, setEditMode }) => {
-  return (
-    <div>
-      {props.isOwner && <button onClick={setEditMode}>edit</button>}
-      <div>
-        <div>
-          <b>FullName: </b>
-          {props.profile.FullName}
+        <div className="text-gray-400">{props.profile.email}</div>
+        <div className="text-gray-400">
+          Registration date:{" "}
+          {dayjs(props.profile.lastOnline).format(`YYYY.MM.DD`)}
         </div>
-        <div>
-          <b>Looking for a job: </b>
-          {props.profile.lokingForAJob ? "Yes" : "No"}
-        </div>
+        <p className="text-gray-400">Subscribers: {props.subscribers}</p>
+        <p className="text-gray-400">Subscribes: {props.subscribes}</p>
+        <ProfileDataForm
+          profile={props.profile}
+          isOwner={props.isOwner}
+          onSubmit={handleProfileUpdate}
+        />
       </div>
-      {/* <div>
-        <b>Contacts: </b> {Object.keys(props.profile.contacts).map(key => {
-            return <Contact key={key} ContactTitle={key} contactValue={props.profile.contacts[key]} />
-        })}
-    </div> */}
-    </div>
-  );
-};
-
-const Contact = ({ title, value }) => {
-  return (
-    <div>
-      <b>{title}:</b> {value}
     </div>
   );
 };

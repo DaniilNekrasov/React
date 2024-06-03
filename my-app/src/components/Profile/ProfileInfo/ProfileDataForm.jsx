@@ -1,35 +1,111 @@
-import React from "react";
-import { createField, Input } from "../../common/FormsControls";
-import { reduxForm } from "redux-form";
-import s from "./ProfileInfo.module.css";
+import React, { useState } from "react";
 
-const ProfileDataForm = ({ props, handleSubmit, error }) => {
+const ProfileDataForm = ({ profile, isOwner, onSubmit }) => {
+  const [editMode, setEditMode] = useState(false);
+  const [formData, setFormData] = useState({
+    work: "Academy of Sciences",
+    awards: "BSUIR Hackathon champion",
+    education: "BSUIR, software engineer",
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSubmit(formData);
+    setEditMode(false);
+  };
+
   return (
-    <form onSubmit={handleSubmit}>
-      {props.isOwner && <button onClick={() => {}}>save</button>}
-      <div>
-        <b>FullName </b>: {createField("Full name", "fullName", [], Input)}
-        <b>Looking for a job </b>:{" "}
-        {createField("", "lookingForAJob", [], Input, { type: "checkbox" })}
-      </div>
-      <div>
-        <b>Contacts: </b>{" "}
-        {Object.keys(props.profile.contacts).map((key) => {
-          return (
-            <div key={key} className={s.contact}>
-              <b>
-                {key}: {createField("", "contacts." + key, [], Input)}
-              </b>
+    <div className="p-6 rounded-lg">
+      {editMode ? (
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Work
+            </label>
+            <input
+              type="text"
+              name="work"
+              value={formData.work}
+              onChange={handleInputChange}
+              className="w-full p-2 border rounded-lg text-black"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Awards
+            </label>
+            <input
+              type="text"
+              name="awards"
+              value={formData.awards}
+              onChange={handleInputChange}
+              className="w-full p-2 border rounded-lg"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Education
+            </label>
+            <input
+              type="text"
+              name="education"
+              value={formData.education}
+              onChange={handleInputChange}
+              className="w-full p-2 border rounded-lg"
+            />
+          </div>
+          <div className="flex justify-end space-x-2">
+            <button
+              type="button"
+              className="px-4 py-2 text-white bg-gray-500 rounded-lg hover:bg-gray-700"
+              onClick={() => setEditMode(false)}
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-700"
+            >
+              Save
+            </button>
+          </div>
+        </form>
+      ) : (
+        <div className="space-y-4">
+          <div>
+            <h2 className="text-xl font-semibold">Work</h2>
+            <p className="text-gray-300">{formData.work}</p>
+          </div>
+          <div>
+            <h2 className="text-xl font-semibold">Awards</h2>
+            <p className="text-gray-300">{formData.awards}</p>
+          </div>
+          <div>
+            <h2 className="text-xl font-semibold">Education</h2>
+            <p className="text-gray-300">{formData.education}</p>
+          </div>
+          {isOwner && (
+            <div className="flex justify-end">
+              <button
+                className="px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-700"
+                onClick={() => setEditMode(true)}
+              >
+                Edit profile info
+              </button>
             </div>
-          );
-        })}
-      </div>
-    </form>
+          )}
+        </div>
+      )}
+    </div>
   );
 };
 
-const ProfileDataReduxForm = reduxForm({ form: "edit-profile" })(
-  ProfileDataForm
-);
-
-export default ProfileDataReduxForm;
+export default ProfileDataForm;

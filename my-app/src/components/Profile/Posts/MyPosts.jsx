@@ -5,23 +5,60 @@ import { Button, Input } from "antd";
 import TextArea from "antd/es/input/TextArea";
 
 const MyPosts = (props) => {
-  let postElements = props.profile.posts.map((info) => (
-    <Post
-      files={info.file}
-      profile={props.profile}
-      getPosts={props.getPosts}
-      deletePost={props.deletePost}
-      key={info.id}
-      id={info.id}
-      photo={props.photo}
-      owner={props.owner}
-      author={props.author}
-      message={info.content}
-      date={info.date}
-      title={info.title}
-    />
-  ));
+  let combinedElements = [
+    ...props.profile.posts.map((info) => ({
+      ...info,
+      isPost: true,
+      createdAt: info.date,
+    })),
+    ...props.events.map((event) => ({
+      ...event,
+      isPost: false,
+      createdAt: event.createdAt,
+    })),
+  ];
+  combinedElements.sort(
+    (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+  );
 
+  let postElements = combinedElements.map((item) =>
+    item.isPost ? (
+      <Post
+        isPost={true}
+        files={item.file}
+        profile={props.profile}
+        getPosts={props.getPosts}
+        deletePost={props.deletePost}
+        key={item.id}
+        id={item.id}
+        photo={props.photo}
+        owner={props.owner}
+        author={props.author}
+        message={item.content}
+        date={item.date}
+        title={item.title}
+      />
+    ) : (
+      (props.owner === props.author || item.public) && (
+        <Post
+          profile={props.profile}
+          getPosts={props.getPosts}
+          isPost={false}
+          key={item.id}
+          id={item.id}
+          photo={props.photo}
+          owner={props.owner}
+          author={props.author}
+          start={item.startTime}
+          end={item.finishTime}
+          message={item.description}
+          date={item.createdAt}
+          title={item.title}
+          isPublic={item.public}
+        />
+      )
+    )
+  );
   return (
     <div>
       <Formik
@@ -102,7 +139,7 @@ const MyPosts = (props) => {
           </Form>
         )}
       </Formik>
-      <h3>My posts</h3>
+      <div className="m-2 font-bold">My posts and events</div>
       <div className="space-y-4 m-4">{postElements}</div>
     </div>
   );

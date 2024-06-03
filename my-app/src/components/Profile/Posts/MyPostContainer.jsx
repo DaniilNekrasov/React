@@ -4,6 +4,7 @@ import {
   deletePost,
   getUserPosts,
 } from "../../../Redux/profileReducer";
+import { getEvents } from "../../../Redux/eventReducer";
 import MyPosts from "./MyPosts";
 import React from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
@@ -26,6 +27,7 @@ class UserPosts extends React.Component {
       userId = this.props.author;
     }
     this.props.getUserPosts(userId);
+    this.props.getEvents(userId);
   }
 
   componentDidUpdate(prevProps, prevProfile, snapshot) {
@@ -35,6 +37,7 @@ class UserPosts extends React.Component {
         userId = this.props.author;
       }
       this.props.getUserPosts(userId);
+      this.props.getEvents(userId);
     }
   }
 
@@ -43,6 +46,8 @@ class UserPosts extends React.Component {
       <MyPosts
         profile={this.props.profile}
         getPosts={this.props.getUserPosts}
+        getEvents={this.props.getEvents}
+        events={this.props.events}
         newPostText={this.props.newPostText}
         addPost={this.props.addPost}
         deletePost={this.props.deletePost}
@@ -60,11 +65,13 @@ let mapStateToProps = (state) => {
     author: state.auth.userId,
     owner: state.profilePage.curId,
     profile: state.profilePage,
+    events: state.events.events,
   };
 };
 
 let MyPostContainer = connect(mapStateToProps, {
   addPost,
+  getEvents,
   getUserPosts,
   deletePost,
 });

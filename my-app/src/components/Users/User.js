@@ -21,16 +21,17 @@ let User = ({ user, unfollow, follow, following, subId }) => {
             />
           </NavLink>
         </div>
-        <span>
-          <h2>{user.login}</h2>
-          <h3>{user.email}</h3>
-          <h4>{user.status}</h4>
+        <span className=" space-y-3">
+          <div className=" text-2xl">{user.login}</div>
+          <div className=" text-xl">{user.email}</div>
+          <div className=" text-lg">{user.status}</div>
         </span>
       </span>
       <span>
         <div>
           {user.followed ? (
             <Button
+              className=" bg-red-400 m-3"
               disabled={following.some((id) => id === user.id)}
               onClick={() => {
                 unfollow(user.id, subId);
@@ -40,6 +41,7 @@ let User = ({ user, unfollow, follow, following, subId }) => {
             </Button>
           ) : (
             <Button
+              className=" bg-green-400 m-3"
               disabled={following.some((id) => id === user.id)}
               onClick={() => {
                 follow(user.id, subId);

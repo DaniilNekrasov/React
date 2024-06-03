@@ -6,6 +6,7 @@ import { Button } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import MessageItem from "./MessageItem/MessageItem";
 import { io } from "socket.io-client";
+import { LucideMessageSquareShare } from "lucide-react";
 
 const Chat = (props) => {
   const [messages, setMessages] = useState([]);
@@ -70,8 +71,8 @@ const Chat = (props) => {
       event: "message",
     };
     props.addNewMessage(message);
-    socket.send(JSON.stringify(message));
     setValue("");
+    socket.send(JSON.stringify(message));
   };
 
   return (
@@ -84,16 +85,19 @@ const Chat = (props) => {
         {chatId && messages}
       </div>
       {chatId && (
-        <div className="p-1 m-2">
+        <div className="relative w-[97%] m-3">
           <TextArea
-            className=""
+            className="w-full p-3 pr-10 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             onChange={(e) => setValue(e.target.value)}
             type="text"
             value={value}
           />
-          <Button className="bg-black text-white" onClick={sendMessage}>
-            Send
-          </Button>
+          <button
+            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-blue-500"
+            onClick={sendMessage}
+          >
+            <LucideMessageSquareShare />
+          </button>
         </div>
       )}
     </div>

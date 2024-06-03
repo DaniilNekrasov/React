@@ -3,7 +3,8 @@ import userPhoto from "./../../../assets/images/user.jpg";
 import { Button, Image } from "antd";
 import dayjs from "dayjs";
 import { NavLink } from "react-router-dom";
-import { ImageDown } from "lucide-react";
+import PostActions from "./PostActions";
+import classNames from "classnames";
 
 const Post = (props) => {
   const onDeletePost = async () => {
@@ -12,7 +13,12 @@ const Post = (props) => {
   };
   debugger;
   return (
-    <div className="bg-neutral-400 p-5 max-w-screen-lg mx-auto">
+    <div
+      className={classNames("p-3 max-w-screen-lg mx-auto", {
+        " bg-stone-400": !props.isPost,
+        "bg-gray-400": props.isPost,
+      })}
+    >
       <h1 className="text-xl font-bold ml-3">
         {props.newsFlag && (
           <NavLink to={"/profile/" + props.profile.profile.id}>
@@ -32,7 +38,9 @@ const Post = (props) => {
       <span className={s.date}>{dayjs(props.date).format(`MM.DD HH:mm`)}</span>
       {/* //"text-wrap max-w-96"> */}
       <article className={s.text}>
-        <h2 className="text-2xl p-3 text-gray-700">{props.title}</h2>
+        <h2 className="text-2xl p-3 text-gray-700">
+          {!props.isPost && `Event: `} {props.title}
+        </h2>
         <p className="p-3">{props.message}</p>
       </article>
       <div className="p-1 space-y-2">
@@ -46,21 +54,29 @@ const Post = (props) => {
                 height={300}
               />
             ) : (
-              <a href={`http://localhost:3001/${file.filePath}`} download>
-                {file.filePath.split("/").pop()}
+              <a
+                href={`http://localhost:3001/download/${
+                  file.filePath.split("\\")[2]
+                }`}
+                download
+              >
+                {file.origName}
               </a>
             )}
           </div>
         ))}
       </div>
-      {props.owner === props.author && !props.newsFlag && (
+      {props.owner === props.author && !props.newsFlag && props.isPost && (
         <Button className="bg-red-500" onClick={onDeletePost}>
           Delete
         </Button>
       )}
-      <Button>Like</Button>
-      <Button>Dislike</Button>
-      <Button>Comments</Button>
+      {props.isPost && (
+        <PostActions initialLikes={0} initialDislikes={0} comments={{}} />
+      )}
+      {props.isPublic && !props.isPost && props.owner !== props.author && (
+        <Button className=" bg-slate-400">Follow event</Button>
+      )}
     </div>
   );
 };

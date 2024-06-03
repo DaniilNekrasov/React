@@ -42,7 +42,7 @@ export const postsAPI = {
   },
   addPost(id, text, title, files) {
     var formData = new FormData();
-    for (let i = 0; i < files.length; i++) {
+    for (let i = 0; i < files?.length; i++) {
       formData.append("files", files[i]);
     }
     formData.append("userId", id);
