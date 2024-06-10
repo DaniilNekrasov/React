@@ -27,7 +27,7 @@ class NewsContainer extends React.Component {
         <News
           {...this.props}
           getPosts={this.props.getAllPosts}
-          posts={this.props.posts}
+          news={this.props.news}
         />
       </div>
     );
@@ -36,7 +36,7 @@ class NewsContainer extends React.Component {
 
 let mapStateToProps = (state) => {
   return {
-    posts: state.news.news,
+    news: state.news.news,
     user: state.auth.userId,
   };
 };

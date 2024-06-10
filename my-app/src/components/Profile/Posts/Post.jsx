@@ -1,82 +1,112 @@
 import s from "./Post.module.css";
 import userPhoto from "./../../../assets/images/user.jpg";
-import { Button, Image } from "antd";
+import { Button, Image, Tag } from "antd";
 import dayjs from "dayjs";
 import { NavLink } from "react-router-dom";
 import PostActions from "./PostActions";
 import classNames from "classnames";
+import { eventAPI } from "../../../API/API";
+import Files from "./Components/Files";
+import Author from "./Components/Author";
 
 const Post = (props) => {
   const onDeletePost = async () => {
-    await props.deletePost(props.id);
-    props.getPosts(props.profile.curId);
+    if (props.isPost) {
+      await props.deletePost(props.id);
+      props.getPosts(props.profile.curId);
+    } else {
+      await props.deleteEvent(props.id);
+      props.getEvents(props.profile.curId);
+    }
   };
-  debugger;
+  const onFollow = async () => {
+    let event = {
+      title:
+        props.title + ` (Following ${props.profile.profile.login}'s event)`,
+      description: props.message,
+      start: props.start,
+      end: props.end,
+      isPublic: false,
+    };
+    await eventAPI.createEvent(props.author, event);
+  };
   return (
     <div
       className={classNames("p-3 max-w-screen-lg mx-auto", {
-        " bg-stone-400": !props.isPost,
+        "bg-stone-400": !props.isPost,
         "bg-gray-400": props.isPost,
       })}
     >
       <h1 className="text-xl font-bold ml-3">
-        {props.newsFlag && (
+        {props.newsFlag && props.authors?.length > 1 && (
           <NavLink to={"/profile/" + props.profile.profile.id}>
             {props.profile.profile.login}
           </NavLink>
         )}
       </h1>
-      <Image
-        src={`http://localhost:3001/user/avatar/${
-          props.profile.profile.avatarURL?.split("\\")[2]
-        }`}
-        fallback={userPhoto}
-        className="rounded-lg"
-        width={100}
-        height={100}
-      />
-      <span className={s.date}>{dayjs(props.date).format(`MM.DD HH:mm`)}</span>
-      {/* //"text-wrap max-w-96"> */}
+      {!props.isPost && (
+        <Image
+          src={`http://localhost:3001/user/avatar/${
+            props.profile.profile.avatarURL?.split("\\")[2]
+          }`}
+          fallback={userPhoto}
+          className="rounded-lg"
+          width={100}
+          height={100}
+        />
+      )}
+
+      <div className="flex justify-between items-center">
+        {props.authors?.map((author) =>
+          author.id !== props.author.id ? (
+            <Author key={author.id} author={author} />
+          ) : (
+            <></>
+          )
+        )}
+      </div>
+      <div>
+        {props.keywords?.map((item) => (
+          <Tag key={item.id} className=" bg-green-200 text-base p-1 m-1">
+            {item.title}
+          </Tag>
+        ))}
+      </div>
       <article className={s.text}>
         <h2 className="text-2xl p-3 text-gray-700">
           {!props.isPost && `Event: `} {props.title}
         </h2>
         <p className="p-3">{props.message}</p>
       </article>
-      <div className="p-1 space-y-2">
-        {props.files?.map((file) => (
-          <div key={file.id} className="bg-gray-500 p-1">
-            {file.fileType.startsWith("image/") ? (
-              <Image
-                src={`http://localhost:3001/${file.filePath}`}
-                alt={file.filePath}
-                width={300}
-                height={300}
-              />
-            ) : (
-              <a
-                href={`http://localhost:3001/download/${
-                  file.filePath.split("\\")[2]
-                }`}
-                download
-              >
-                {file.origName}
-              </a>
-            )}
-          </div>
-        ))}
-      </div>
-      {props.owner === props.author && !props.newsFlag && props.isPost && (
-        <Button className="bg-red-500" onClick={onDeletePost}>
-          Delete
-        </Button>
-      )}
-      {props.isPost && (
+      <Files files={props.files} />
+      {props.isPost ? (
         <PostActions initialLikes={0} initialDislikes={0} comments={{}} />
+      ) : (
+        <div>
+          {dayjs(props.start).format(`MM.DD HH:MM`)} -{" "}
+          {dayjs(props.end).format(`MM.DD HH:MM`)}
+        </div>
       )}
       {props.isPublic && !props.isPost && props.owner !== props.author && (
-        <Button className=" bg-slate-400">Follow event</Button>
+        <Button className=" bg-slate-400" onClick={onFollow}>
+          Follow event
+        </Button>
       )}
+      <div className="flex justify-between">
+        <span className={s.date}>
+          {dayjs(props.date).format(`MM.DD HH:mm`)}
+        </span>
+        {props.isPublic && !props.isPost && (
+          <span className="font-bold pb-0 from-stone-500 ">Public event</span>
+        )}
+        {props.owner === props.author && !props.newsFlag && (
+          <div className="flex justify-end">
+            <Button className="bg-red-500 justify-end" onClick={onDeletePost}>
+              Delete
+            </Button>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

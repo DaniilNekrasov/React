@@ -90,10 +90,17 @@ export const deletePost = (id) => async (dispatch) => {
   dispatch(deletePostAC(id));
 };
 
-export const addPost = (id, text, title, files) => async (dispatch) => {
-  let newPosts = await postsAPI.addPost(id, text, title, files);
-  dispatch(setPosts(newPosts));
-};
+export const addPost =
+  (authors, text, title, files, keywords) => async (dispatch) => {
+    let newPosts = await postsAPI.addPost(
+      authors,
+      text,
+      title,
+      files,
+      keywords
+    );
+    dispatch(setPosts(newPosts));
+  };
 
 export const getUserPosts = (id) => {
   return async (dispatch) => {

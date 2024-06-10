@@ -79,7 +79,7 @@ const CreateForm = (props) => {
           </div>
           <Checkbox
             name="isPublic"
-            value={values.isPublic}
+            checked={values.isPublic}
             onChange={(data) => {
               debugger;
               setFieldValue("isPublic", data.target.checked);

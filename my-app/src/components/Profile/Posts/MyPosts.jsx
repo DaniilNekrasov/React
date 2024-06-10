@@ -1,10 +1,26 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Post from "./Post";
 import { Form, Formik } from "formik";
-import { Button, Input } from "antd";
-import TextArea from "antd/es/input/TextArea";
+import { Button, Input, Select, Image, Tag } from "antd";
+import { postsAPI } from "../../../API/API";
 
 const MyPosts = (props) => {
+  const [items, setItems] = useState([]);
+  const [keywords, setKeywords] = useState([]);
+  const [keywordInput, setKeywordInput] = useState("");
+  const [selectedItems, setSelectedItems] = useState([]);
+
+  const addKeyword = () => {
+    if (keywordInput.trim() && !keywords.includes(keywordInput.trim())) {
+      setKeywords([...keywords, keywordInput.trim()]);
+      setKeywordInput("");
+    }
+  };
+
+  const removeKeyword = (removedKeyword) => {
+    setKeywords(keywords.filter((keyword) => keyword !== removedKeyword));
+  };
+
   let combinedElements = [
     ...props.profile.posts.map((info) => ({
       ...info,
@@ -21,7 +37,7 @@ const MyPosts = (props) => {
     (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
   );
 
-  let postElements = combinedElements.map((item) =>
+  let postElements = combinedElements.map((item, num) =>
     item.isPost ? (
       <Post
         isPost={true}
@@ -29,24 +45,25 @@ const MyPosts = (props) => {
         profile={props.profile}
         getPosts={props.getPosts}
         deletePost={props.deletePost}
-        key={item.id}
+        key={num}
         id={item.id}
-        photo={props.photo}
         owner={props.owner}
         author={props.author}
         message={item.content}
         date={item.date}
         title={item.title}
+        keywords={item.keyword}
+        authors={item.author}
       />
     ) : (
       (props.owner === props.author || item.public) && (
         <Post
           profile={props.profile}
-          getPosts={props.getPosts}
+          getEvents={props.getEvents}
           isPost={false}
-          key={item.id}
+          key={num}
           id={item.id}
-          photo={props.photo}
+          deleteEvent={props.deleteEvent}
           owner={props.owner}
           author={props.author}
           start={item.startTime}
@@ -59,18 +76,40 @@ const MyPosts = (props) => {
       )
     )
   );
+
+  useEffect(
+    () => async () => {
+      let subs = (await postsAPI.getSubscribes(3)).data;
+      let subers = (await postsAPI.getSubscribers(3)).data;
+      let result = [];
+      for (let i = 0; i < subers.length; i++) {
+        for (let j = 0; j < subs.length; j++) {
+          subers[i].subscriberId === subs[j].subscribedToId &&
+            subers[i].subscriberId !== subers[i].subscribedToId &&
+            result.push(subers[i].subscriberId);
+        }
+      }
+      setItems(result);
+    },
+    []
+  );
+
   return (
-    <div>
+    <div className="p-5 max-w-screen-lg mx-auto rounded-lg">
       <Formik
-        initialValues={{ content: "", title: "" }}
+        initialValues={{ content: "", title: "", files: null, keywords: [] }}
         onSubmit={(values, { resetForm }) => {
+          setSelectedItems(selectedItems.unshift(props.author));
           props.addPost(
-            props.author,
+            selectedItems,
             values.content,
             values.title,
-            values.files
+            values.files,
+            keywords
           );
           resetForm();
+          setKeywords([]);
+          setSelectedItems([]);
         }}
         validate={(values) => {
           const errors = {};
@@ -90,33 +129,29 @@ const MyPosts = (props) => {
           setFieldValue,
           errors,
           touched,
-        }) => (
-          <Form onSubmit={handleSubmit} className="m-5 space-y-3">
-            {props.owner === props.author && (
+        }) =>
+          props.author === props.owner && (
+            <Form onSubmit={handleSubmit} className="m-5 space-y-3">
+              <label className="text-lg">New post</label>
               <Input
                 placeholder="New post title"
                 onChange={handleChange}
                 name="title"
                 type="text"
                 value={values.title}
-              ></Input>
-            )}
-            {errors.title && touched.title && (
-              <div className="text-red-500 mx-3">{errors.title}</div>
-            )}
-            {props.owner === props.author && (
-              <TextArea
+              />
+              {errors.title && touched.title && (
+                <div className="text-red-500 mx-3">{errors.title}</div>
+              )}
+              <Input.TextArea
                 name="content"
                 placeholder="New post text"
                 onChange={handleChange}
-                type="text"
                 value={values.content}
               />
-            )}
-            {errors.content && touched.content && (
-              <div className="text-red-500 mx-3">{errors.content}</div>
-            )}
-            {props.owner === props.author && (
+              {errors.content && touched.content && (
+                <div className="text-red-500 mx-3">{errors.content}</div>
+              )}
               <Input
                 type="file"
                 name="files"
@@ -126,18 +161,52 @@ const MyPosts = (props) => {
                   setFieldValue("files", event.currentTarget.files);
                 }}
               />
-            )}
-            {props.owner === props.author && (
+              <div className="space-x-3">
+                {keywords.map((keyword) => (
+                  <Tag
+                    key={keyword}
+                    closable
+                    onClose={() => removeKeyword(keyword)}
+                  >
+                    {keyword}
+                  </Tag>
+                ))}
+              </div>
+              <div className="flex items-center space-x-2">
+                <Input
+                  maxLength={50}
+                  value={keywordInput}
+                  onChange={(e) => setKeywordInput(e.target.value)}
+                  placeholder="Enter keyword"
+                  onPressEnter={addKeyword}
+                />
+                <Button onClick={addKeyword} className="bg-blue-300 text-black">
+                  Add Keyword
+                </Button>
+              </div>
+              <Select
+                name="author"
+                mode="multiple"
+                options={items.map((item) => ({
+                  value: item,
+                  label: item,
+                }))}
+                onChange={setSelectedItems}
+                value={selectedItems}
+                maxCount={3}
+                className="w-52"
+                placeholder="Coauthors"
+              />
               <Button
-                className="bg-blue-400"
+                className="bg-blue-300 ml-5"
                 type="submit"
                 onClick={handleSubmit}
               >
                 Post
               </Button>
-            )}
-          </Form>
-        )}
+            </Form>
+          )
+        }
       </Formik>
       <div className="m-2 font-bold">My posts and events</div>
       <div className="space-y-4 m-4">{postElements}</div>

@@ -14,10 +14,14 @@ const instance = axios.create({
 
 export const eventAPI = {
   async createEvent(userId, event) {
+    debugger;
     return await instance2.post("events/create", { userId, event });
   },
   getEvents(userId) {
     return instance2.get(`events/events?userId=${userId}`);
+  },
+  deleteEvent(id) {
+    return instance2.delete(`events/remove?id=${id}`);
   },
 };
 
@@ -40,18 +44,23 @@ export const postsAPI = {
   getPosts(id) {
     return instance2.get(`profile/posts?userId=${id}`);
   },
-  addPost(id, text, title, files) {
+  addPost(authors, text, title, files, keywords) {
+    debugger;
     var formData = new FormData();
     for (let i = 0; i < files?.length; i++) {
       formData.append("files", files[i]);
     }
-    formData.append("userId", id);
+    for (let i = 0; i < authors?.length; i++) {
+      formData.append("authors", authors[i]);
+    }
     formData.append("content", text);
     formData.append("title", title);
+    for (let i = 0; i < keywords?.length; i++) {
+      formData.append("keywords", keywords[i]);
+    }
     var date = new Date(Date.now()).toISOString();
     formData.append("date", date);
-    debugger;
-    return instance2.post(`profile/posts?userId=${id}`, formData, {
+    return instance2.post(`profile/posts`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },

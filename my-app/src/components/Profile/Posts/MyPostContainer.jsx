@@ -4,7 +4,7 @@ import {
   deletePost,
   getUserPosts,
 } from "../../../Redux/profileReducer";
-import { getEvents } from "../../../Redux/eventReducer";
+import { deleteEvent, getEvents } from "../../../Redux/eventReducer";
 import MyPosts from "./MyPosts";
 import React from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
@@ -51,6 +51,7 @@ class UserPosts extends React.Component {
         newPostText={this.props.newPostText}
         addPost={this.props.addPost}
         deletePost={this.props.deletePost}
+        deleteEvent={this.props.deleteEvent}
         photo={this.props.photo}
         owner={this.props.owner}
         author={this.props.author}
@@ -74,6 +75,7 @@ let MyPostContainer = connect(mapStateToProps, {
   getEvents,
   getUserPosts,
   deletePost,
+  deleteEvent,
 });
 
 export default compose(MyPostContainer, withRouter)(UserPosts);

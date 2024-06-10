@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Calendar from "./Calendar";
 import { getEvents } from "../../Redux/eventReducer";
+import { withAuthRedirect } from "../HOC/WithAuthRedirect";
+import { compose } from "redux";
 
 const CalendarContainer = () => {
   const dispatch = useDispatch();
@@ -15,4 +17,4 @@ const CalendarContainer = () => {
   return <Calendar events={userEvents.events} user={user} />;
 };
 
-export default CalendarContainer;
+export default compose(withAuthRedirect)(CalendarContainer);

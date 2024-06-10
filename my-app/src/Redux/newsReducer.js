@@ -1,4 +1,4 @@
-import { postsAPI, usersAPI } from "../API/API";
+import { eventAPI, postsAPI, usersAPI } from "../API/API";
 
 const SET_NEWS = "SET_NEWS";
 
@@ -27,16 +27,26 @@ export const getAllPosts = (id) => {
 
     for (const subscribe of subscribes) {
       const sec = (await postsAPI.getPosts(subscribe.subscribedToId)).data;
+      const events = (await eventAPI.getEvents(subscribe.subscribedToId)).data
+        .events;
       const author = (await usersAPI.getProfile(subscribe.subscribedToId)).data;
 
       for (const post of sec) {
         arr.push({
-          post: post,
+          date: post.date,
+          post,
+          profile: { profile: author },
+        });
+      }
+      for (const event of events) {
+        arr.push({
+          date: event.createdAt,
+          event,
           profile: { profile: author },
         });
       }
     }
-    arr.sort((a, b) => b.post.id - a.post.id);
+    arr.sort((a, b) => new Date(b.date) - new Date(a.date));
 
     dispatch(setNews(arr));
   };

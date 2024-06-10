@@ -1,81 +1,45 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Post from "../Profile/Posts/Post";
 import { Input, Select } from "antd";
 
 const News = (props) => {
-  // let combinedElements = [
-  //   ...props.posts.map((info) => ({
-  //     ...info,
-  //     isPost: true,
-  //     createdAt: info.date,
-  //   })),
-  //   ...props.events.map((event) => ({
-  //     ...event,
-  //     isPost: false,
-  //     createdAt: event.createdAt,
-  //   })),
-  // ];
-  // combinedElements.sort(
-  //   (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-  // );
-  // let postElements = combinedElements.map((item) =>
-  //   item.isPost ? (
-  //     <Post
-  //       newsFlag={true}
-  //       isPost={true}
-  //       files={item.file}
-  //       profile={props.profile}
-  //       getPosts={props.getPosts}
-  //       deletePost={props.deletePost}
-  //       key={item.id}
-  //       id={item.id}
-  //       photo={props.photo}
-  //       owner={props.owner}
-  //       author={props.author}
-  //       message={item.content}
-  //       date={item.date}
-  //       title={item.title}
-  //     />
-  //   ) : (
-  //     item.public && (
-  //       <Post
-  //         newsFlag={true}
-  //         profile={props.profile}
-  //         getPosts={props.getPosts}
-  //         isPost={false}
-  //         key={item.id}
-  //         id={item.id}
-  //         photo={props.photo}
-  //         owner={props.owner}
-  //         author={props.author}
-  //         start={item.startTime}
-  //         end={item.finishTime}
-  //         message={item.description}
-  //         date={item.createdAt}
-  //         title={item.title}
-  //         isPublic={item.public}
-  //       />
-  //     )
-  //   )
-  // );
-  let postElements = props.posts.map((info) => (
-    <Post
-      isPost={true}
-      getPosts={props.getPosts}
-      title={info.post.title}
-      files={info.post.file}
-      message={info.post.content}
-      newsFlag={true}
-      profile={info.profile}
-      key={info.post.postId}
-      id={info.post.postId}
-      date={info.post.date}
-    />
-  ));
-
-  // useEffect(() => {
-  //   props.getPosts(props.author);
-  // }, []);
+  let newsElements = props.news.map((item, key) =>
+    item.post ? (
+      <Post
+        newsFlag={true}
+        isPost={true}
+        files={item.post.file}
+        profile={item.profile}
+        key={key}
+        id={item.post.id}
+        owner={item.profile.profile.id}
+        author={props.user}
+        message={item.post.content}
+        date={item.post.date}
+        title={item.post.title}
+        keywords={item.post.keyword}
+        authors={item.post.author}
+      />
+    ) : (
+      item.event.public && (
+        <Post
+          newsFlag={true}
+          profile={item.profile}
+          isPost={false}
+          key={key}
+          id={item.event.id}
+          owner={item.profile.profile.id}
+          author={props.user}
+          start={item.event.startTime}
+          end={item.event.finishTime}
+          message={item.event.description}
+          date={item.event.createdAt}
+          title={item.event.title}
+          isPublic={item.event.public}
+        />
+      )
+    )
+  );
 
   let options = {
     title: "Title",
@@ -91,7 +55,7 @@ const News = (props) => {
         options={{ options }}
         placeholder={"Search criteria"}
       ></Select>
-      <div className="space-y-4">{postElements}</div>
+      <div className="space-y-4">{newsElements}</div>
     </div>
   );
 };
