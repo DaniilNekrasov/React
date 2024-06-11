@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Post from "./Post";
 import { Form, Formik } from "formik";
-import { Button, Input, Select, Image, Tag } from "antd";
+import { Button, Input, Select, Tag } from "antd";
 import { postsAPI } from "../../../API/API";
 
 const MyPosts = (props) => {
@@ -45,6 +45,8 @@ const MyPosts = (props) => {
         profile={props.profile}
         getPosts={props.getPosts}
         deletePost={props.deletePost}
+        postLike={item.postLike}
+        comments={item.Comment}
         key={num}
         id={item.id}
         owner={props.owner}

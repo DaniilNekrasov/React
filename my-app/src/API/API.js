@@ -14,7 +14,6 @@ const instance = axios.create({
 
 export const eventAPI = {
   async createEvent(userId, event) {
-    debugger;
     return await instance2.post("events/create", { userId, event });
   },
   getEvents(userId) {
@@ -44,8 +43,14 @@ export const postsAPI = {
   getPosts(id) {
     return instance2.get(`profile/posts?userId=${id}`);
   },
+  addRate(rate, postId, userId) {
+    return instance2.put(`profile/posts/rate/`, {
+      rate,
+      postId,
+      userId,
+    });
+  },
   addPost(authors, text, title, files, keywords) {
-    debugger;
     var formData = new FormData();
     for (let i = 0; i < files?.length; i++) {
       formData.append("files", files[i]);

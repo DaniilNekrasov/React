@@ -10,7 +10,11 @@ const Author = ({ author }) => (
       {author.login}
     </NavLink>
     <Image
-      src={`${BASE_URL}/user/avatar/${author.avatarURL?.split("\\")[2]}`}
+      src={
+        author.avatarURL
+          ? `${BASE_URL}/user/avatar/${author.avatarURL?.split("\\")[2]}`
+          : userPhoto
+      }
       fallback={userPhoto}
       className="rounded-lg"
       width={100}

@@ -19,6 +19,8 @@ const News = (props) => {
         title={item.post.title}
         keywords={item.post.keyword}
         authors={item.post.author}
+        postLike={item.post.postLike}
+        comments={item.post.Comment}
       />
     ) : (
       item.event.public && (

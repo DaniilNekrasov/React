@@ -46,9 +46,13 @@ const Post = (props) => {
       </h1>
       {!props.isPost && (
         <Image
-          src={`http://localhost:3001/user/avatar/${
-            props.profile.profile.avatarURL?.split("\\")[2]
-          }`}
+          src={
+            props.profile.profile?.avatarURL
+              ? `http://localhost:3001/user/avatar/${
+                  props.profile.profile.avatarURL?.split("\\")[2]
+                }`
+              : userPhoto
+          }
           fallback={userPhoto}
           className="rounded-lg"
           width={100}
@@ -80,7 +84,12 @@ const Post = (props) => {
       </article>
       <Files files={props.files} />
       {props.isPost ? (
-        <PostActions initialLikes={0} initialDislikes={0} comments={{}} />
+        <PostActions
+          postLikes={props.postLike}
+          comments={props.comments}
+          userId={props.author}
+          postId={props.id}
+        />
       ) : (
         <div>
           {dayjs(props.start).format(`MM.DD HH:MM`)} -{" "}
