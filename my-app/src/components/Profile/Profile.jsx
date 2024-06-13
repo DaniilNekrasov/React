@@ -15,6 +15,7 @@ const Profile = (props) => {
         updateStatus={props.updateStatus}
         subscribes={props.subscribes}
         subscribers={props.subscribers}
+        updateInfo={props.updateInfo}
       />
       <MyPostContainer />
     </div>

@@ -9,12 +9,16 @@ const SET_POSTS = "SET_POSTS";
 const SET_SUBSCRIBERS = "SET_SUBSCRIBERS";
 const SET_SUBSCRIBES = "SET_SUBSCRIBES";
 const SAVE_PHOTO = "SAVE_PHOTO";
+const SET_INFO = "SET_INFO";
 
 let initialState = {
   posts: [],
   profile: null,
   status: "",
   curId: null,
+  work: "",
+  education: "",
+  awards: "",
   subscribes: 0,
   subscribers: 0,
 };
@@ -46,12 +50,21 @@ const profileReducer = (state = initialState, action) => {
       return {
         ...state,
         profile: action.profile,
+        avatarURL: action.avatarURL,
         curId: action.profile.id,
       };
     case SET_STATUS:
       return {
         ...state,
         status: action.status,
+      };
+    case SET_INFO:
+      debugger;
+      return {
+        ...state,
+        work: action.work,
+        education: action.education,
+        awards: action.awards,
       };
     case SAVE_PHOTO:
       return {
@@ -80,6 +93,13 @@ export const setUserProfile = (profile) => ({
   profile,
 });
 export const setStatus = (status) => ({ type: SET_STATUS, status });
+export const setInfo = (work, awards, education, userId) => ({
+  type: SET_INFO,
+  work,
+  awards,
+  education,
+  userId,
+});
 export const setPosts = (posts) => ({ type: SET_POSTS, posts });
 export const savePhotoSuccess = (photo) => ({ type: SAVE_PHOTO, photo });
 export const setSubscribes = (value) => ({ type: SET_SUBSCRIBES, value });
@@ -127,6 +147,13 @@ export const updateStatus = (id, status) => async (dispatch) => {
   let response = await usersAPI.updateStatus(id, status);
   if (response.data.message === "success") dispatch(setStatus(status));
 };
+
+export const updateInfo =
+  (work, awards, education, userId) => async (dispatch) => {
+    let response = await usersAPI.updateInfo(work, awards, education, userId);
+    if (response.data.message === "success")
+      dispatch(setInfo(work, awards, education));
+  };
 
 export const savePhoto = (file, id) => async (dispatch) => {
   let response = await usersAPI.savePhoto(file, id);

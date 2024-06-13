@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { MessageCircle, ThumbsUp, ThumbsDown } from "lucide-react";
 import { postsAPI } from "../../../API/API";
+import { Input, Button } from "antd";
+import dayjs from "dayjs";
+import Author from "./Components/Author";
 
-const PostActions = ({ postLikes, comments, userId, postId }) => {
+const PostActions = ({ postLikes, comments, userId, postId, profile }) => {
   const [likes, setLikes] = useState(0);
   const [dislikes, setDislikes] = useState(0);
   const [showComments, setShowComments] = useState(false);
   const [userRating, setUserRating] = useState(0);
+  const [comment, setComment] = useState("");
 
   useEffect(() => {
     const initialLikes = postLikes?.filter((like) => like.rate === true).length;
@@ -54,6 +58,17 @@ const PostActions = ({ postLikes, comments, userId, postId }) => {
     setShowComments(!showComments);
   };
 
+  const addComment = () => {
+    comments.unshift({
+      date: new Date(Date.now()).toISOString(),
+      text: comment,
+      author: profile,
+      userId: userId,
+    });
+    postsAPI.addComment(comment, postId, userId);
+    setComment("");
+  };
+
   const updateServerRating = (newRating) => {
     postsAPI.addRate(newRating, postId, userId);
   };
@@ -88,12 +103,36 @@ const PostActions = ({ postLikes, comments, userId, postId }) => {
         </button>
       </div>
       {showComments && (
-        <div className="mt-4 space-y-4">
+        <div className="mt-4 space-y-2">
           {comments.map((comment, index) => (
-            <div key={index} className="p-2 border rounded-lg">
-              {comment}
+            <div
+              key={comment.id}
+              className="p-2 border rounded-lg bg-slate-500 max-w-[870px]"
+            >
+              <div className="flex items-center space-x-3">
+                <Author
+                  author={comment.author}
+                  width={"30px"}
+                  height={"30px"}
+                />
+                <span className="break-words max-w-3xl flex-1">
+                  {comment.text}
+                </span>
+              </div>
+              <div className="text-xs block mt-1 opacity-50">
+                {dayjs(comment.date).format(`MM.DD HH:mm`)}
+              </div>
             </div>
           ))}
+          <Input
+            placeholder="Comment"
+            className="w-[600px]"
+            maxLength={500}
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+            type="text"
+          />
+          <Button onClick={addComment}>Comment</Button>
         </div>
       )}
     </div>

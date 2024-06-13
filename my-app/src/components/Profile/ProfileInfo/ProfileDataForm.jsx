@@ -3,9 +3,9 @@ import React, { useState } from "react";
 const ProfileDataForm = ({ profile, isOwner, onSubmit }) => {
   const [editMode, setEditMode] = useState(false);
   const [formData, setFormData] = useState({
-    work: "Academy of Sciences",
-    awards: "BSUIR Hackathon champion",
-    education: "BSUIR, software engineer",
+    work: profile.job,
+    awards: profile.awards,
+    education: profile.education,
   });
 
   const handleInputChange = (e) => {
@@ -16,6 +16,14 @@ const ProfileDataForm = ({ profile, isOwner, onSubmit }) => {
     });
   };
 
+  const onCancel = () => {
+    setFormData({
+      work: profile.job,
+      awards: profile.awards,
+      education: profile.education,
+    });
+    setEditMode(false);
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
     onSubmit(formData);
@@ -27,7 +35,7 @@ const ProfileDataForm = ({ profile, isOwner, onSubmit }) => {
       {editMode ? (
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700">
+            <label className="block text-sm font-medium text-gray-500">
               Work
             </label>
             <input
@@ -35,11 +43,11 @@ const ProfileDataForm = ({ profile, isOwner, onSubmit }) => {
               name="work"
               value={formData.work}
               onChange={handleInputChange}
-              className="w-full p-2 border rounded-lg text-black"
+              className="w-full p-1 border rounded-md text-black"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">
+            <label className="block text-sm font-medium text-gray-500">
               Awards
             </label>
             <input
@@ -47,11 +55,11 @@ const ProfileDataForm = ({ profile, isOwner, onSubmit }) => {
               name="awards"
               value={formData.awards}
               onChange={handleInputChange}
-              className="w-full p-2 border rounded-lg"
+              className="w-full p-1 border rounded-md text-black"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">
+            <label className="block text-sm font-medium text-gray-500">
               Education
             </label>
             <input
@@ -59,14 +67,14 @@ const ProfileDataForm = ({ profile, isOwner, onSubmit }) => {
               name="education"
               value={formData.education}
               onChange={handleInputChange}
-              className="w-full p-2 border rounded-lg"
+              className="w-full p-1 border rounded-md text-black"
             />
           </div>
           <div className="flex justify-end space-x-2">
             <button
               type="button"
               className="px-4 py-2 text-white bg-gray-500 rounded-lg hover:bg-gray-700"
-              onClick={() => setEditMode(false)}
+              onClick={onCancel}
             >
               Cancel
             </button>

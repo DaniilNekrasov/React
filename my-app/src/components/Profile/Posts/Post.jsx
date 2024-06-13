@@ -89,6 +89,7 @@ const Post = (props) => {
           comments={props.comments}
           userId={props.author}
           postId={props.id}
+          profile={props.profile}
         />
       ) : (
         <div>

@@ -50,6 +50,13 @@ export const postsAPI = {
       userId,
     });
   },
+  addComment(text, postId, userId) {
+    return instance2.post(`profile/comments`, {
+      text,
+      postId,
+      userId,
+    });
+  },
   addPost(authors, text, title, files, keywords) {
     var formData = new FormData();
     for (let i = 0; i < files?.length; i++) {
@@ -102,6 +109,9 @@ export const usersAPI = {
   },
   getStatus(userId = 1) {
     return instance2.get(`profile/status?userId=${userId}`);
+  },
+  updateInfo(work, awards, education, userId) {
+    return instance2.put(`profile/info`, { work, awards, education, userId });
   },
   updateStatus(id = 1, status) {
     return instance2.put(`profile/status`, { status: status, id: id });

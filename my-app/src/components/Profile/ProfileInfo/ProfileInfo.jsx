@@ -1,19 +1,16 @@
 import Preloader from "../../common/Preloader";
-import s from "./ProfileInfo.module.css";
 import userPhoto from "../../../assets/images/user.jpg";
 import ProfileStatusHook from "./ProfileStatusHook";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ProfileDataForm from "./ProfileDataForm";
-import { saveProfile } from "../../../Redux/profileReducer";
 import { Image, Input, Button } from "antd";
 import { messagesAPI } from "../../../API/API";
 import dayjs from "dayjs";
 
 const ProfileInfo = (props) => {
-  const handleProfileUpdate = (updatedProfile) => {
-    // Update profile logic here
-    console.log(updatedProfile);
+  const handleProfileUpdate = (info) => {
+    debugger;
+    props.updateInfo(info.work, info.awards, info.education, props.profile.id);
   };
   let navigate = useNavigate();
 
