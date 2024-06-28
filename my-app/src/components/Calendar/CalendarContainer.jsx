@@ -12,7 +12,7 @@ const CalendarContainer = () => {
 
   useEffect(() => {
     dispatch(getEvents(user.userId));
-  }, [dispatch, userEvents]);
+  }, [userEvents, user.userId]);
 
   return <Calendar events={userEvents.events} user={user} />;
 };

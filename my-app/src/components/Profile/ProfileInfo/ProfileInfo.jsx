@@ -1,17 +1,33 @@
 import Preloader from "../../common/Preloader";
 import userPhoto from "../../../assets/images/user.jpg";
 import ProfileStatusHook from "./ProfileStatusHook";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import ProfileDataForm from "./ProfileDataForm";
 import { Image, Input, Button } from "antd";
 import { messagesAPI } from "../../../API/API";
 import dayjs from "dayjs";
+// import { useEffect } from "react";
 
 const ProfileInfo = (props) => {
+  // const [searchParams] = useSearchParams();
   const handleProfileUpdate = (info) => {
-    debugger;
     props.updateInfo(info.work, info.awards, info.education, props.profile.id);
   };
+
+  // useEffect(
+  //   () => async () => {
+  //     debugger;
+  //     props.profile &&
+  //       (await props.updateInfo(
+  //         props.profile.job,
+  //         props.profile.awards,
+  //         props.profile.education,
+  //         props.profile.id
+  //       ));
+  //   },
+  //   [props.profile, searchParams]
+  // );
+
   let navigate = useNavigate();
 
   if (!props.profile) {
@@ -41,13 +57,19 @@ const ProfileInfo = (props) => {
           fallback={userPhoto}
         />
         {props.isOwner ? (
-          <Input
-            className="w-1/4 justify-center content-center"
-            type="file"
-            onChange={onMainPhotoSelected}
-            accept="image/*,.png,.jpg,.web"
-            name="select file"
-          ></Input>
+          <label
+            htmlFor="upload-button"
+            className="inline-block bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-lg"
+          >
+            Upload avatar
+            <Input
+              id="upload-button"
+              type="file"
+              onChange={onMainPhotoSelected}
+              accept="image/*,.png,.jpg,.web"
+              style={{ display: "none" }}
+            />
+          </label>
         ) : (
           <Button className=" bg-slate-400" onClick={startDialog}>
             Send message

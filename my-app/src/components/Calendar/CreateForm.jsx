@@ -4,6 +4,7 @@ import { Button, Checkbox, DatePicker } from "antd";
 import { getEvents } from "../../Redux/eventReducer";
 import { useDispatch } from "react-redux";
 import { eventAPI } from "../../API/API";
+import "./form.module.css";
 
 const { RangePicker } = DatePicker;
 
@@ -20,12 +21,17 @@ const CreateForm = (props) => {
         description: "",
         isPublic: false,
       }}
-      onSubmit={(values, { setSubmitting, resetForm, setFieldValue }) => {
+      onSubmit={(values, { setSubmitting, resetForm }) => {
         setSubmitting(true);
-        resetForm();
-        eventAPI.createEvent(props.user.userId, values);
-        setSubmitting(false);
-        dispatch(getEvents(props.user.userId));
+        eventAPI
+          .createEvent(props.user.userId, values)
+          .then(() => {
+            resetForm();
+            dispatch(getEvents(props.user.userId));
+          })
+          .finally(() => {
+            setSubmitting(false);
+          });
       }}
       validate={(values) => {
         const errors = {};
@@ -64,10 +70,10 @@ const CreateForm = (props) => {
           <div className="flex space-x-4">
             <RangePicker
               showTime
+              allowClear={true}
               name="range"
               placeholder={["Start date", "Finish date"]}
               format="YYYY-MM-DD HH:mm"
-              // value={[values.start, values.end]}
               onChange={(date) => {
                 setFieldValue("start", date ? date[0] : "");
                 setFieldValue("end", date ? date[1] : "");
@@ -81,7 +87,6 @@ const CreateForm = (props) => {
             name="isPublic"
             checked={values.isPublic}
             onChange={(data) => {
-              debugger;
               setFieldValue("isPublic", data.target.checked);
             }}
           >

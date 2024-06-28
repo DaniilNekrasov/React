@@ -11,56 +11,68 @@ import { LucideMessageSquareShare } from "lucide-react";
 const Chat = (props) => {
   const [messages, setMessages] = useState([]);
   const [value, setValue] = useState("");
-  let socket;
+  const [socket, setSocket] = useState(null);
   const [connected, setConnected] = useState(false);
   const userId = props.userId;
   const chatId = props.chatId;
 
-  function connect() {
-    socket = io.connect("http://localhost:3002", {
-      withCredentials: true,
-    });
-    socket.onopen = () => {
-      setConnected(true);
-      const message = {
-        event: "connection",
-        chatId: chatId,
-        userId: userId,
-        id: Date.now(),
-      };
-      socket.send(JSON.stringify(message));
-      console.log("Connected");
-    };
-    socket.onmessage = (event) => {
-      const message = JSON.parse(event.data);
-      const messageElement = (
-        <MessageItem
-          sender={message.senderId}
-          message={message.text}
-          date={message.date}
-          id={message.id}
-        ></MessageItem>
-      );
-      setMessages((prev) => [...prev, messageElement]);
-      const container = document.getElementById("scroll");
-      container.scrollTop = container.scrollHeight;
-    };
-    socket.onclose = () => {
-      console.log("Socket was closed");
-    };
-    socket.onerror = () => {
-      console.log("Socket error");
-    };
-  }
+  useEffect(() => {
+    scrollToBottom();
+  });
 
   useEffect(() => {
-    socket?.close(1000, "соединение с чатом " + chatId + " закрыто!");
     if (chatId) {
-      const container = document.getElementById("scroll");
-      container.scrollTop = container.scrollHeight;
-      connect();
+      const newSocket = io("http://localhost:3002", {
+        withCredentials: true,
+      });
+
+      newSocket.on("connect", () => {
+        setConnected(true);
+        newSocket.emit("joinRoom", chatId);
+        const message = {
+          event: "connection",
+          chatId: chatId,
+          userId: userId,
+          id: Date.now(),
+        };
+        newSocket.emit("message", JSON.stringify(message));
+        console.log("Connected");
+      });
+
+      newSocket.on("message", (event) => {
+        const message = JSON.parse(event);
+        const messageElement = (
+          <MessageItem
+            sender={message.senderId === userId}
+            message={message.text}
+            date={message.date}
+            id={message.id}
+          ></MessageItem>
+        );
+        setMessages((prev) => [...prev, messageElement]);
+        scrollToBottom();
+      });
+
+      newSocket.on("disconnect", () => {
+        console.log("Socket was closed");
+      });
+
+      newSocket.on("error", (err) => {
+        console.log("Socket error", err);
+      });
+
+      setSocket(newSocket);
+
+      return () => {
+        newSocket.close(1000, "Соединение с чатом " + chatId + " закрыто!");
+      };
     }
   }, [chatId]);
+
+  const scrollToBottom = () => {
+    const container = document.getElementById("scroll");
+    container.scrollTop = container.scrollHeight;
+  };
 
   const sendMessage = async () => {
     const message = {
@@ -72,7 +84,8 @@ const Chat = (props) => {
     };
     props.addNewMessage(message);
     setValue("");
-    socket.send(JSON.stringify(message));
+    socket.emit("message", JSON.stringify(message));
+    scrollToBottom(); // Scroll to bottom after sending a message
   };
 
   return (
@@ -87,7 +100,7 @@ const Chat = (props) => {
       {chatId && (
         <div className="relative w-[97%] m-3">
           <TextArea
-            className="w-full p-3 pr-10 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-3 pr-10 border rounded-lg focus:outline-none focus:ring-blue-500"
             onChange={(e) => setValue(e.target.value)}
             type="text"
             value={value}

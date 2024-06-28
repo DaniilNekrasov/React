@@ -59,10 +59,9 @@ const profileReducer = (state = initialState, action) => {
         status: action.status,
       };
     case SET_INFO:
-      debugger;
       return {
         ...state,
-        work: action.work,
+        job: action.job,
         education: action.education,
         awards: action.awards,
       };
@@ -119,7 +118,7 @@ export const addPost =
       files,
       keywords
     );
-    dispatch(setPosts(newPosts));
+    dispatch(setPosts(newPosts.data));
   };
 
 export const getUserPosts = (id) => {
@@ -158,7 +157,7 @@ export const updateInfo =
 export const savePhoto = (file, id) => async (dispatch) => {
   let response = await usersAPI.savePhoto(file, id);
   if (response.message === "success")
-    dispatch(setUserProfile(response.data.candidate));
+    dispatch(setUserProfile(response.candidate));
 };
 
 export const saveProfile = (profile) => async (dispatch, getState) => {

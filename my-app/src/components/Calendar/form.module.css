@@ -1,0 +1,5 @@
+:global .ant-picker-ok {
+  border-color: green !important;
+  background-color: rgb(130, 168, 240);
+  flood-color: green;
+}

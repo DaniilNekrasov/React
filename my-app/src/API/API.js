@@ -58,6 +58,7 @@ export const postsAPI = {
     });
   },
   addPost(authors, text, title, files, keywords) {
+    debugger;
     var formData = new FormData();
     for (let i = 0; i < files?.length; i++) {
       formData.append("files", files[i]);

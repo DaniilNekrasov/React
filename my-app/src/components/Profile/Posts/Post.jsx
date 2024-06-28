@@ -37,12 +37,13 @@ const Post = (props) => {
         "bg-gray-400": props.isPost,
       })}
     >
-      <h1 className="text-xl font-bold ml-3">
-        {props.newsFlag && props.authors?.length > 1 && (
-          <NavLink to={"/profile/" + props.profile.profile.id}>
-            {props.profile.profile.login}
-          </NavLink>
-        )}
+      <h1 className="text-xl font-bold ml-3 ">
+        {(props.newsFlag && props.authors?.length > 1) ||
+          (!props.isPost && (
+            <NavLink to={"/profile/" + props.profile.profile?.id}>
+              {props.profile.profile?.login}
+            </NavLink>
+          ))}
       </h1>
       {!props.isPost && (
         <Image

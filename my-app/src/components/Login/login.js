@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import { login } from "../../Redux/authReducer";
 import { Navigate, useNavigate } from "react-router-dom";
@@ -6,6 +6,7 @@ import { Formik } from "formik";
 import { Button, Form, Input } from "antd";
 
 const Login = (props) => {
+  let [accessDenied, setAccessDenied] = useState(false);
   let navigate = useNavigate();
   if (props.isAuth) {
     return <Navigate to={"/profile"} />;
@@ -17,6 +18,7 @@ const Login = (props) => {
     <Formik
       initialValues={{ login: "", password: "" }}
       validate={(values) => {
+        setAccessDenied(false);
         const errors = {};
         if (!values.login) {
           errors.login = "Login required";
@@ -26,8 +28,13 @@ const Login = (props) => {
         }
         return errors;
       }}
-      onSubmit={(values) => {
-        props.login(values.login, values.password, values.rememberMe);
+      onSubmit={async (values) => {
+        setAccessDenied(false);
+        try {
+          await props.login(values.login, values.password, values.rememberMe);
+        } catch {
+          setAccessDenied(true);
+        }
       }}
     >
       {({
@@ -66,6 +73,11 @@ const Login = (props) => {
           </div>
           {errors.password && touched.password && (
             <div className="text-red-500 mx-3">{errors.password}</div>
+          )}
+          {accessDenied && (
+            <div className="text-red-500 mx-3">
+              Incorrect login or password!
+            </div>
           )}
           <Button
             className="bg-black text-white m-3"

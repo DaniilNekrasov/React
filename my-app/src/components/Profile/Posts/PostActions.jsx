@@ -111,7 +111,7 @@ const PostActions = ({ postLikes, comments, userId, postId, profile }) => {
             >
               <div className="flex items-center space-x-3">
                 <Author
-                  author={comment.author}
+                  author={comments.author || profile.profile}
                   width={"30px"}
                   height={"30px"}
                 />

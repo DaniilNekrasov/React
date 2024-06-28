@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Post from "./Post";
 import { Form, Formik } from "formik";
-import { Button, Input, Select, Tag } from "antd";
+import { Button, Input, Select, Tag, Upload } from "antd";
 import { postsAPI } from "../../../API/API";
 
 const MyPosts = (props) => {
@@ -81,14 +81,14 @@ const MyPosts = (props) => {
 
   useEffect(
     () => async () => {
-      let subs = (await postsAPI.getSubscribes(3)).data;
-      let subers = (await postsAPI.getSubscribers(3)).data;
+      let subs = (await postsAPI.getSubscribes(36)).data;
+      let subers = (await postsAPI.getSubscribers(36)).data;
       let result = [];
       for (let i = 0; i < subers.length; i++) {
         for (let j = 0; j < subs.length; j++) {
           subers[i].subscriberId === subs[j].subscribedToId &&
             subers[i].subscriberId !== subers[i].subscribedToId &&
-            result.push(subers[i].subscriberId);
+            result.push(subers[i]);
         }
       }
       setItems(result);
@@ -111,6 +111,7 @@ const MyPosts = (props) => {
           );
           resetForm();
           setKeywords([]);
+          setKeywordInput("");
           setSelectedItems([]);
         }}
         validate={(values) => {
@@ -154,15 +155,33 @@ const MyPosts = (props) => {
               {errors.content && touched.content && (
                 <div className="text-red-500 mx-3">{errors.content}</div>
               )}
-              <Input
-                type="file"
-                name="files"
-                multiple
+              {/* <Upload
                 accept=".pdf,.txt,.doc,.svg,.jpg,.png"
+                multiple
                 onChange={(event) => {
                   setFieldValue("files", event.currentTarget.files);
                 }}
-              />
+              >
+                <Button>Upload files</Button>
+              </Upload> */}
+              <label
+                htmlFor="filesupload"
+                className="inline-block bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 w-[100%] rounded-lg"
+              >
+                Upload files
+                <Input
+                  id="filesupload"
+                  style={{ display: "none" }}
+                  type="file"
+                  name="files"
+                  multiple
+                  accept=".pdf,.txt,.doc,.svg,.jpg,.png"
+                  onChange={(event) => {
+                    setFieldValue("files", event.currentTarget.files);
+                  }}
+                />
+              </label>
+
               <div className="space-x-3">
                 {keywords.map((keyword) => (
                   <Tag
@@ -190,8 +209,8 @@ const MyPosts = (props) => {
                 name="author"
                 mode="multiple"
                 options={items.map((item) => ({
-                  value: item,
-                  label: item,
+                  value: item.subscriber.id,
+                  label: item.subscriber.login,
                 }))}
                 onChange={setSelectedItems}
                 value={selectedItems}
